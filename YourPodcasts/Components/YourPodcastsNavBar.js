@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import Icon from '@expo/vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from 'react-native-responsive-dimensions';
 

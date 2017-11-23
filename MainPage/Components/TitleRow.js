@@ -2,7 +2,7 @@ import React from 'react';
 import { Row } from "react-native-easy-grid";
 import { StyleSheet, Text,TouchableOpacity } from 'react-native';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
-import Icon from '@expo/vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 
 
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     titleText: {
         fontSize: responsiveFontSize(2.64084507),
-        fontFamily: 'open-sans-bold',
+        //fontFamily: 'open-sans-bold',
     },
     nextIcon: {
         fontSize:responsiveFontSize(2.64084507),

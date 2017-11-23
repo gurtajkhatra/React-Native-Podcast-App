@@ -1,32 +1,26 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import {  Row, Grid } from "react-native-easy-grid";
+import { podcasts } from '../../reducers';
+import PodcastButton from './PodcastButton'
 
 export default class PodcastsScrollView extends React.Component {
     render() {
-        podcasts = []
-        for (var i=0;i<51;i++){
-            podcasts.push(<View key={i} style={styles.podcastArt}/>)
+        var podcasts = []
+        for (var i=0;i<this.props.pods.length;i++){
+            podcasts.push(<PodcastButton pod={this.props.pods[i]}/>)//<View key={i} style={styles.podcastArt}/>)
         }
         return(
-            <ScrollView contentContainerStyle={styles.scrollView}>
-                    {podcasts}
-            </ScrollView>
+            <FlatList numColumns={3} contentContainerStyle={styles.flatList} 
+            data={podcasts}
+            renderItem={({item}) =>item}/>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    scrollView: {
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-    podcastArt: {
-        width:"31%",
-        aspectRatio:1,
-        backgroundColor:'red',
-        marginBottom:15,
+    flatList: {
+        flexDirection:'column',
     },
 
   });

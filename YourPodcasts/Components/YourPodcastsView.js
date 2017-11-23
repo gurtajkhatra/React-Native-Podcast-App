@@ -1,9 +1,9 @@
 import React from 'react';
 import { Col, Row, Grid } from "react-native-easy-grid";
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
-import YourPodcastsNavBar from './Components/YourPodcastsNavBar'
-import PodcastsScrollView from './Components/PodcastsScrollView'
+import YourPodcastsNavBar from './YourPodcastsNavBar'
+import PodcastsScrollView from './PodcastsScrollView'
 
 
 export default class YourPodcastsView extends React.Component {
@@ -14,10 +14,10 @@ export default class YourPodcastsView extends React.Component {
                     <YourPodcastsNavBar/>
                 </Row>
                 <Row style={styles.podcasts}>
-                    <PodcastsScrollView/>
+                    <PodcastsScrollView pods={this.props.subbedPods}/>
                 </Row>
-                {/* <Row style={styles.currentlyPlayingArea}>
-                </Row> */}
+                <Row style={styles.currentlyPlayingArea}>
+                </Row>
             </Grid>
         )
     }
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         paddingRight:responsiveWidth(4.4875),
         paddingTop:responsiveWidth(4.4875),
     },
-    // currentlyPlayingArea: {
-    //     flex:1,
-    // },
+    currentlyPlayingArea: {
+        flex:1,
+    },
   });

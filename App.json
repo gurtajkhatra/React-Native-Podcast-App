@@ -1,7 +1,7 @@
-{ 
-    "name": "testapp", 
-    "displayName": "testapp", 
-    "expo": { 
-        "sdkVersion": "22.0.0" 
-    } 
+{
+  "name": "PodcastApp",
+  "displayName": "PodcastApp",
+  "expo": {
+    "sdkVersion": "22.0.0"
+  }
 }
