@@ -5,12 +5,12 @@ import { connect } from 'react-redux'
 import { addNewPodcast } from '../actions'
 
 
-const mapStateToProps = (state, props) => 
-({
-  subbedPods: (state.podcasts.subscribedPodcasts)===undefined ? []:Object.values(state.podcasts.subscribedPodcasts),
-  navigator:props.navigation,
-})
-
+const mapStateToProps = (state, props) => {
+  return ({
+    subbedPods: (state.podcasts.subscribedPodcasts)===undefined ? []:Object.values(state.podcasts.subscribedPodcasts),
+    navigator:state.nav,
+  })
+}
 const mapDispatchToProps = dispatch => 
 ({
   getPodcastData(rssFeedLink) {

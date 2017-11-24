@@ -2,13 +2,9 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity,Image} from 'react-native';
 
 export default class PodcastButton extends React.Component{
-    goToPodcastDescription = () => {
-        
-    }
     render(){
-        console.log(this.props.pod)
         return (
-        <TouchableOpacity style={styles.touchableArea} activeOpacity={0.4}>
+        <TouchableOpacity onPress={()=>{this.props.buttonClicked(this.props.pod.key)}} style={styles.touchableArea} activeOpacity={0.4}>
             <Image style={styles.podcastArt} source={{uri:this.props.pod.imgFilePath}}/>
         </TouchableOpacity>
         )

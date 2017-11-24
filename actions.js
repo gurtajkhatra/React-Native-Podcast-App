@@ -7,6 +7,8 @@ import Platform from 'react-native'
 
 let docDir = RNFetchBlob.fs.dirs.DocumentDir
 
+
+
 //Downloads from a url and returns the file path where it is saved
 const downloadFromUrl = (url,fileName) => {
     var newFp = {fp:'',isSame:"True"};
@@ -23,6 +25,14 @@ const downloadFromUrl = (url,fileName) => {
         console.log(err)
     })
     return prom
+}
+
+export const updateSelectedPodcast = (podcastKey) => {
+    console.log(podcastKey)
+    return {
+        type:C.CHANGE_SELECED_PODCAST,
+        payload:podcastKey
+    }
 }
 
 //Adds a new podcast to the users "subscribed" podcasts

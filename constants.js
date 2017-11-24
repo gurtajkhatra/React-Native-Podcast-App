@@ -4,7 +4,7 @@ const constants = {
     REMOVE_PODCAST: "REMOVE_PODCAST",
     GET_PODCAST_INFO:"GET_PODCAST_INFO",
     HANDLE_ERROR:"HANDLE_ERROR",
-    
+    CHANGE_SELECED_PODCAST:'CHANGE_SELECED_PODCAST', 
 }
 
 export default constants

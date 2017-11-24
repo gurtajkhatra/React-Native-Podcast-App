@@ -8,7 +8,7 @@ export default class PodcastsScrollView extends React.Component {
     render() {
         var podcasts = []
         for (var i=0;i<this.props.pods.length;i++){
-            podcasts.push(<PodcastButton pod={this.props.pods[i]}/>)//<View key={i} style={styles.podcastArt}/>)
+            podcasts.push(<PodcastButton pod={this.props.pods[i]} buttonClicked = {this.props.buttonClicked}/>)//<View key={i} style={styles.podcastArt}/>)
         }
         return(
             <FlatList numColumns={3} contentContainerStyle={styles.flatList} 

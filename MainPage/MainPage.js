@@ -18,7 +18,7 @@ export default class MainPage extends React.Component {
         // }
     }
     render() {
-        const navigator = this.props.navigator
+        const navigator = this.props.navigation
         return(
             <Grid style = {styles.container}>
                 <Row style={styles.navBar}>

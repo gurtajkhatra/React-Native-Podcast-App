@@ -4,9 +4,17 @@ import { StyleSheet, Text, View } from 'react-native';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
 import YourPodcastsNavBar from './YourPodcastsNavBar'
 import PodcastsScrollView from './PodcastsScrollView'
-
+import {updateSelectedPodcast} from '../../actions'
 
 export default class YourPodcastsView extends React.Component {
+    constructor(props) {
+        super(props)
+        this.goToPodcastDescription = this.goToPodcastDescription.bind(this)
+    }
+    goToPodcastDescription(podcastKey) {
+        this.props.selectPodcast(podcastKey)
+        this.props.navigation.navigate("PodcastDescriptionView")
+    }
     render() {
         return (
             <Grid style={styles.container}>
@@ -14,7 +22,7 @@ export default class YourPodcastsView extends React.Component {
                     <YourPodcastsNavBar/>
                 </Row>
                 <Row style={styles.podcasts}>
-                    <PodcastsScrollView pods={this.props.subbedPods}/>
+                    <PodcastsScrollView pods={this.props.subbedPods} buttonClicked={this.goToPodcastDescription}/>
                 </Row>
                 <Row style={styles.currentlyPlayingArea}>
                 </Row>

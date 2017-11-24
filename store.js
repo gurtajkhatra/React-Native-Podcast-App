@@ -14,7 +14,8 @@ const enhancer = compose(
 export default () => {
 	const persistConfig = {
 		key: 'root',
-		storage,
+    storage,
+    blacklist: ['nav'],
   };
   const reducer = persistReducer(persistConfig, appReducer);
   const store = createStore(reducer, enhancer);

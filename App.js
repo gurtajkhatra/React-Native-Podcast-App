@@ -1,9 +1,9 @@
 import React from 'react';
 import {View,Text, AppRegistry} from 'react-native';
 import { Provider } from 'react-redux'
-import { AppNavigator } from './AppNavigator'
 import storeFactory from './store'
 import { PersistGate } from 'redux-persist/es/integration/react'
+import AppWithNavigationState from './AppNavigator';
 
 const saveState = () => {
   console.log(store.getState())
@@ -11,8 +11,6 @@ const saveState = () => {
 
 const { persistor, store } = storeFactory()
 store.subscribe(saveState)
-
-console.log(store)
 export default class App extends React.Component {
   state = {
     fontLoaded: true,
@@ -31,7 +29,7 @@ export default class App extends React.Component {
               <PersistGate 
                 loading={<Text> Loading... </Text>}
                 persistor={persistor}>
-                <AppNavigator/>
+                <AppWithNavigationState/>
               </PersistGate>
           </Provider>
         )
