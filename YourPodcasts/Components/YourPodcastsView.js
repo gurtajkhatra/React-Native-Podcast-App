@@ -22,7 +22,7 @@ export default class YourPodcastsView extends React.Component {
                     <YourPodcastsNavBar/>
                 </Row>
                 <Row style={styles.podcasts}>
-                    <PodcastsScrollView pods={this.props.subbedPods} buttonClicked={this.goToPodcastDescription}/>
+                    <PodcastsScrollView pods={this.props.subbedPods} buttonClicked={(podcastKey) => {this.goToPodcastDescription(podcastKey)}}/>
                 </Row>
                 <Row style={styles.currentlyPlayingArea}>
                 </Row>

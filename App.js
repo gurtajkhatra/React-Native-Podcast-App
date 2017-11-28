@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/es/integration/react'
 import AppWithNavigationState from './AppNavigator';
 
 const saveState = () => {
+  console.log("SAVING STATE...")
   console.log(store.getState())
 }
 

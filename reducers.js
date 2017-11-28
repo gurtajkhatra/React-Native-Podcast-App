@@ -58,9 +58,18 @@ export const podcasts = (state={}, action) => {
       }
     }
 
+export const currentEpisode = (state={}, action) => {
+  switch(action.type) {
+    case C.CURRENT_EPISODE :
+      return action.payload
+    default:
+      return state
+  }
+}
+
 export const selectedPodcast = (state='',action) => {
   switch(action.type) {
-    case C.CHANGE_SELECED_PODCAST :
+    case C.CHANGE_SELECTED_PODCAST :
       return action.payload
     default:
       return state
@@ -71,5 +80,6 @@ export const selectedPodcast = (state='',action) => {
 export default combineReducers({
     podcasts,
     selectedPodcast, 
-    nav
+    nav,
+    currentEpisode
 })

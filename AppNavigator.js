@@ -21,12 +21,14 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import MainPageContainer from './MainPage/MainPageContainer';
 import YourPodcasts from './YourPodcasts/YourPodcastsViewContainer';
 import PodcastDescriptionContainer from './PodcastDescription/PodcastDescriptionContainer'
+import PlayingEpisodeContainer from './PlayingEpisode/PlayingEpisodeContainer'
 
 export const AppNavigator = StackNavigator(
   {
     MainPageView: { screen: MainPageContainer },
     YourPodcastsView: { screen: YourPodcasts },
-    PodcastDescriptionView: { screen:PodcastDescriptionContainer}
+    PodcastDescriptionView: { screen:PodcastDescriptionContainer},
+    PlayingEpisodeView:{ screen:PlayingEpisodeContainer },
   },
   { 
     headerMode:"none",

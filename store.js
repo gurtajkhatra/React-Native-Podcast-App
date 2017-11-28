@@ -23,29 +23,3 @@ export default () => {
 
   return { store, persistor };
 };
-// const config = {
-//   key: 'root',
-//   storage: storage,
-// };
-
-// const reducers = persistReducer(config,
-//   appReducer,
-// );
-
-// export default function storeFactory(initialState) {
-//   const store = createStore(
-//     appReducer,
-//     applyMiddleware(thunk),
-//   );
-//   const persistor = persistStore(store);
-//   return { persistor, store };
-// };
-
-// export default function storeFactory(initialState) {
-// 	const store = createStore(
-// 	  appReducer,
-// 	  initialState,
-// 		applyMiddleware(thunk)
-// 	);
-// 	return store
-// }

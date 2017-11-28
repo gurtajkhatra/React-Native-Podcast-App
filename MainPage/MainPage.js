@@ -6,6 +6,14 @@ import PodcastsSection from './Components/PodcastsSection'
 import { responsiveWidth } from 'react-native-responsive-dimensions';
 
 export default class MainPage extends React.Component {
+    constructor(props) {
+        super(props)
+        this.goToPodcastDescription = this.goToPodcastDescription.bind(this)
+    }
+    goToPodcastDescription(podcastKey) {
+        this.props.selectPodcast(podcastKey)
+        this.props.navigation.navigate("PodcastDescriptionView")
+    }
     componentDidMount() {
         // var pods = [
         //     'https://www.npr.org/rss/podcast.php?id=510289',
@@ -25,9 +33,9 @@ export default class MainPage extends React.Component {
                     <MainPageNavBar/>
                 </Row>
                 <Row style={styles.podcasts}>
-                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="New Episodes" onTitlePress = {()=>console.log("tapped")}/>
-                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Podcasts" onTitlePress={()=>navigator.navigate('YourPodcastsView')}/>
-                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Playlists" onTitlePress = {()=>console.log("tapped")}/>
+                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="New Episodes" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/>
+                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Podcasts" onPodcastPress={(podcastKey) => {this.goToPodcastDescription(podcastKey)}} onTitlePress={()=>navigator.navigate('YourPodcastsView')}/>
+                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Playlists" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/>
                 </Row>
                 <Row style={styles.currentlyPlayingArea}/>
             </Grid>
@@ -48,7 +56,6 @@ const styles = StyleSheet.create({
         flex:8,
         flexDirection:"column",
         paddingLeft: responsiveWidth(4.6875),
-        //backgroundColor:"pink",
     },
     podcastsSection: {
         flex:1,

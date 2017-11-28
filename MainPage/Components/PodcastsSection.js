@@ -3,21 +3,21 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { Image,StyleSheet, Text, View, FlatList,ScrollView  } from 'react-native';
 import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 import TitleRow from './TitleRow'
-
+import PodcastButton from '../../YourPodcasts/Components/PodcastButton'
 export default class PodcastsSection extends React.Component {
     render() {
         return(
             <Grid style={styles.container}>
                 <TitleRow title={this.props.title} onTitlePress={this.props.onTitlePress}/>
                 <Row style={styles.podcastsRow}>
-                    <FlatList contentContainerStyle={styles.podcastArtRow} horizontal={true} showsHorizontalScrollIndicator={false} style={styles.flatList}
+                    <FlatList horizontal={true} showsHorizontalScrollIndicator={false}
                     data={this.props.pods}
                     renderItem={({item}) => {
                         if (item.imgFilePath !== '') {
-                            return <Image style={[styles.podcastArt]} source={{uri:item.imgFilePath}}/>
+                            return <PodcastButton style={[styles.podcastArt]} buttonClicked={() => {this.props.onPodcastPress(item.key)}} pod={item}/>//<Image style={[styles.podcastArt]} source={{uri:item.imgFilePath}}/>
                         }
                     }
-                }//<View style={[styles.podcastArt, {backgroundColor:'green'}]}/>}
+                }
                     />
                 </Row>
             </Grid>
@@ -33,16 +33,9 @@ const styles = StyleSheet.create({
     podcastsRow: {
         flex:3,
     },
-    flatList: {
-        flex:1,
-    },
-    podcastArtRow: {
-        alignItems:"flex-start",
-    },
     podcastArt: {
-        height:"90%",
+        height:'95%',
         aspectRatio:1,
-        marginRight:10,
-    },
-
+        marginRight:5,
+    }
   });

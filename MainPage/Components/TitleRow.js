@@ -12,7 +12,7 @@ export default class TitleRow extends React.Component{
             <Icon name="navigate-next" style={[styles.nextIcon]}/>
         );
         return (
-            <TouchableOpacity style={styles.tappableArea} onPress={this.props.onTitlePress} activeOpacity={0.4}>
+            <TouchableOpacity style={styles.tappableArea} onPress={() => this.props.onTitlePress()} activeOpacity={0.4}>
                 <Row style={styles.titleRow}>
                         <Text style={styles.titleText}> {this.props.title} </Text>
                         {NextIcon}

@@ -1,26 +1,53 @@
 import React from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
-import {  Row, Grid } from "react-native-easy-grid";
+import { StyleSheet, View, FlatList, Image } from 'react-native';
 import { podcasts } from '../../reducers';
 import PodcastButton from './PodcastButton'
 
+/*
+TO FIX
+Podcast artwork sizes are set in "onLayout", however onlayout is called after render, so a
+there are 2 renders everytimes the view opens up. Find a better way of doing this
+
+Change NUM_COLS depending on screen size
+*/
+
+
+const NUM_COLS = 3
 export default class PodcastsScrollView extends React.Component {
-    render() {
-        var podcasts = []
-        for (var i=0;i<this.props.pods.length;i++){
-            podcasts.push(<PodcastButton pod={this.props.pods[i]} buttonClicked = {this.props.buttonClicked}/>)//<View key={i} style={styles.podcastArt}/>)
+    constructor(props){
+        super(props)
+        this.state = {
+            width: 0,
+            aspectRatio:1,
+            marginRight:10,
         }
+    }
+    _onLayout = (contentWidth, contentHeight) => {
+        this.setState({
+            width: (contentWidth/NUM_COLS)-this.state.marginRight
+        })
+    }
+    _renderItem = (item) => {
+        console.log("Rendering")
+        return (
+            <PodcastButton style={this.state} buttonClicked = {()=>this.props.buttonClicked} pod = {item.item} />
+            //<Image style={this.state} source={{uri:item.item.imgFilePath}}/>
+        )
+    }
+
+    render() {
         return(
-            <FlatList numColumns={3} contentContainerStyle={styles.flatList} 
-            data={podcasts}
-            renderItem={({item}) =>item}/>
+            <FlatList onContentSizeChange={(contentWidth,contentHeight) => this._onLayout(contentWidth,contentHeight)}
+            numColumns={NUM_COLS} contentContainerStyle = {styles.flatlist}
+            data={Object.values(this.props.pods)}
+            renderItem={(item) => this._renderItem(item)}
+            />
         );
     }
 }
 
 const styles = StyleSheet.create({
-    flatList: {
-        flexDirection:'column',
+    flatlist: {
+        flexDirection:'row'
     },
-
   });

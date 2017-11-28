@@ -1,12 +1,30 @@
 import React from 'react';
-import { StyleSheet,Text } from 'react-native';
+import { StyleSheet,Text, TouchableOpacity, FlatList } from 'react-native';
+import Modal from 'react-native-modalbox';
 
 
 export default class MainPage extends React.Component {
+    _keyExtractor = (item, index) => index
+    
+    _onPressItem = (episode) => {
+        //Set the episode details in the state
+        this.props.updatedSelectedEpisode(this.props.currentPodcast,episode)
+        //Bring up the "Now Playing" window
+        this.props.navigator.navigate('PlayingEpisodeView')
+    };
+    
+    _renderItem = ({item}) => (
+        <TouchableOpacity onPress={() => this._onPressItem(item)} activeOpacity={0.4}>
+            <Text> {item['itunes:title']} </Text>
+        </TouchableOpacity>
+    );
     render() {
-        console.log(this.props.currentPodcast)
         return(
-            <Text>{this.props.currentPodcast.title}</Text>
+            <FlatList
+            data={this.props.currentPodcast.episodesArray}
+            keyExtractor={this._keyExtractor}
+            renderItem={this._renderItem}
+          />
         )
     }
 }
