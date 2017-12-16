@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 export default class PlayingPodcastInfo extends React.Component {
     render() {
         return(
-        <View>
-            <Image style={this.props.style} source={{uri:this.props.podcastArt}}/>
+        <View style={this.props.style.container}>
+            <Image style={this.props.style.img} source={{uri:this.props.podcastArt}}/>
             <Text> {this.props.episodeTitle}</Text>
             <Text> {this.props.podcastTitle}</Text>
         </View>

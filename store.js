@@ -15,7 +15,7 @@ export default () => {
 	const persistConfig = {
 		key: 'root',
     storage,
-    blacklist: ['nav'],
+    blacklist: ['nav','audioPlayer'],
   };
   const reducer = persistReducer(persistConfig, appReducer);
   const store = createStore(reducer, enhancer);

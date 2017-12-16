@@ -4,6 +4,8 @@ import RNFetchBlob from 'react-native-fetch-blob'
 import fetch from 'cross-fetch'
 import sanitize from 'sanitize-filename'
 import Platform from 'react-native'
+import {Player} from 'react-native-audio-toolkit';
+
 
 let docDir = RNFetchBlob.fs.dirs.DocumentDir
 
@@ -29,6 +31,21 @@ export const updateSelectedPodcast = (podcastKey) => {
     return {
         type:C.CHANGE_SELECTED_PODCAST,
         payload:podcastKey
+    }
+}
+
+export const createNewAudioPlayer = (filePath) => {
+    var newPlayer  = new Player(filePath)
+    return {
+        type:C.CREATE_NEW_AUDIO_PLAYER,
+        payload:newPlayer
+    }
+}
+
+export const togglePlaying = (playing) => {
+    return {
+        type:C.TOGGLE_PLAYING,
+        payload:(!playing)
     }
 }
 

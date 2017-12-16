@@ -15,7 +15,7 @@ export default class MainPage extends React.Component {
     
     _renderItem = ({item}) => (
         <TouchableOpacity onPress={() => this._onPressItem(item)} activeOpacity={0.4}>
-            <Text> {item['itunes:title']} </Text>
+            <Text style={styles.podName}> {item['itunes:title']} </Text>
         </TouchableOpacity>
     );
     render() {
@@ -27,4 +27,11 @@ export default class MainPage extends React.Component {
           />
         )
     }
+}
+
+const styles = {
+    podName: {
+        marginBottom:10,
+        marginTop:10,
+    },
 }

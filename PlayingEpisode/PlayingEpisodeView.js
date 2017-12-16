@@ -5,35 +5,38 @@ import PropTypes from 'prop-types'
 
 import PlayingPodcastInfo from './Components/PlayingPodcastInfo'
 import PodcastControls from './Components/PodcastControls'
-//import TrackPlayer from 'react-native-track-player';
- // TrackPlayer.setupPlayer().then(() => {
-        //     // The player is ready to be used
-        //     var track = {
-        //         id: this.props.currentEpisode.episodeKey,
-        //         url: this.props.currentEpisode.audioLink, // Load media from the network
-        //         title: this.props.currentEpisode.episodeTitle,
-        //         artist: this.props.currentEpisode.podcast,
-        //     };
-        //     TrackPlayer.add([track])
-        //     TrackPlayer.play();
-        // });
 
 
 export default class PlayingEpisodeView extends React.Component {
-    
+    constructor(props) {
+        super(props)
+        if (this.props.audioPlayer === undefined || this.props.audioPlayer === {}) {
+            this.props.createPlayer(this.props.currentEpisode.audioLink)
+        }
+    }
+
+    playPressed() {
+        if (this.props.isPlaying) {
+            this.props.player.pause()
+        }
+        else {
+            this.props.player.play()
+        }
+        this.props.togglePlaying(this.props.isPlaying)
+    }
+
     render(){
-        console.log(this.props)
         return(
         <Grid style = {styles.container}>
             <Row style={styles.topBar}>
             </Row>
             <Row style={styles.podcastArtRow}>
-                <PlayingPodcastInfo style={styles.img} podcastArt={this.props.currentEpisode.podcast.imgFilePath} 
+                <PlayingPodcastInfo style={styles.podcastArt} podcastArt={this.props.currentEpisode.podcast.imgFilePath} 
                 episodeTitle={this.props.currentEpisode.episodeTitle} 
                 podcastTitle={this.props.currentEpisode.podcast.title}/>
             </Row>
             <Row style={styles.controls}>
-                <PodcastControls/>
+                <PodcastControls playPressed={()=>{this.playPressed()}} isPlaying={this.props.isPlaying}/>
             </Row>
         </Grid>
         )
@@ -49,13 +52,18 @@ const styles = {
     },
     podcastArtRow: {
         flex:6,
-        alignItems:'center',
-        justifyContent:'space-around',
     },
-    img: {
-        flex:0.8,
-        aspectRatio:1,
-        marginBottom:15,
+    podcastArt: {
+        img: {
+            flex:0.85,
+            aspectRatio:1,
+            marginBottom:15,
+        },
+        container: {
+            flex:1,
+            alignItems:'center',
+            justifyContent:'center'
+        },
     },
     episodeTitle:{
 

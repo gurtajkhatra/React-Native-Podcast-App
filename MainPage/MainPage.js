@@ -37,7 +37,6 @@ export default class MainPage extends React.Component {
                     <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Podcasts" onPodcastPress={(podcastKey) => {this.goToPodcastDescription(podcastKey)}} onTitlePress={()=>navigator.navigate('YourPodcastsView')}/>
                     <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Playlists" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/>
                 </Row>
-                <Row style={styles.currentlyPlayingArea}/>
             </Grid>
         );    
     }
@@ -58,10 +57,6 @@ const styles = StyleSheet.create({
         paddingLeft: responsiveWidth(4.6875),
     },
     podcastsSection: {
-        flex:1,
-    },
-
-    currentlyPlayingArea: {
         flex:1,
     },
   });
