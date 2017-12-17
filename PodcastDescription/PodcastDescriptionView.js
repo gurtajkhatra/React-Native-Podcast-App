@@ -10,7 +10,7 @@ export default class MainPage extends React.Component {
         //Set the episode details in the state
         this.props.updatedSelectedEpisode(this.props.currentPodcast,episode)
         //Bring up the "Now Playing" window
-        this.props.navigator.navigate('PlayingEpisodeView')
+        //this.props.navigator.navigate('PlayingEpisodeView')
     };
     
     _renderItem = ({item}) => (

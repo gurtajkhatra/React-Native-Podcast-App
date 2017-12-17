@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     StyleSheet,
     StatusBar,
+    TouchableWithoutFeedback,
     Dimensions
 } from 'react-native';
 import PlayingEpisodeContainer from '../PlayingEpisode/PlayingEpisodeContainer'
@@ -15,7 +16,6 @@ export default class Footer extends React.Component {
     state = {
         pan: new Animated.ValueXY(),
         opacity: new Animated.Value(1),
-        isMoving: true
     }
 
     isMoving = false;
@@ -29,7 +29,7 @@ export default class Footer extends React.Component {
 
     openPlaying(offsetY) {
         if (offsetY < -100) {
-            this.moving = true;
+            this.isMoving = true;
             StatusBar.setHidden(true, true);
             this.state.opacity.setValue(0);
             Animated.timing(
@@ -40,21 +40,20 @@ export default class Footer extends React.Component {
                 }
             ).start(() => {
                 //hide tab bar
-
                 setTimeout(() => {
-                    this.open = true;
-                    this.moving = false;
+                    this.isOpen = true;
+                    this.isMoving = false;
                 }, 200);
                 this.state.pan.setOffset({y: -window.height+this.props.footerHeight});
                 this.state.pan.setValue({y: 0});
             });
         } else {
-            this.moving = true;
+            this.isMoving = true;
             Animated.timing(
                 this.state.pan.y,
                 {toValue: 0}
             ).start(() => {
-                setTimeout(() => this.moving = false, 200);
+                setTimeout(() => this.isMoving = false, 200);
                 this.state.pan.setOffset({y: 0});
             });
         }
@@ -62,26 +61,26 @@ export default class Footer extends React.Component {
 
     closePlaying(offsetY) {
         if(offsetY > 100) {
-            this.moving = true;
+            this.isMoving = true;
             StatusBar.setHidden(false, true);
             Animated.timing(
                 this.state.pan.y,
                 {toValue: window.height - this.props.footerHeight, duration: 200}
             ).start(() => {
                 setTimeout(() => {
-                    this.open = false;
-                    this.moving = false;
+                    this.isOpen = false;
+                    this.isMoving = false;
                 }, 200);
                 this.state.pan.setOffset({y: 0});
                 this.state.pan.setValue({y: 0});
             });
         } else {
-            this.moving = true;
+            this.isMoving = true;
             Animated.timing(
                 this.state.pan.y,
                 {toValue: 0}
             ).start(() => {
-                setTimeout(() => this.moving = false, 200);
+                setTimeout(() => this.isMoving = false, 200);
                 this.state.pan.setOffset({y: window.height - this.props.footerHeight});
             });
         }
@@ -100,17 +99,16 @@ export default class Footer extends React.Component {
             onPanResponderGrant: (e, gestureState) => {
             },
             onPanResponderMove: (e,g) => {
-                if(this.moving || (!this.open && g.dy > 0) || (this.open && g.dy < 0)) {
+                if(this.isMoving || (!this.isOpen && g.dy > 0) || (this.isOpen && g.dy < 0)) {
                     return
                 }
-                if(!this.open && g.dy < 0) {
+                if(!this.isOpen && g.dy < 0) {
                     const value = g.dy/70 + 1;
                     if (0 < value && value < 1) {
                         this.state.opacity.setValue(value);
                     }
-
                 }
-                if(this.open && g.dy > 0) {
+                if(this.isOpen && g.dy > 0) {
                     const value = g.dy / 250 - 1;
                     if (0 < value && value < 1) {
                         this.state.opacity.setValue(value);
@@ -119,21 +117,17 @@ export default class Footer extends React.Component {
                 return panMover(e,g);
             },
             onPanResponderRelease: (e, g) => {
-                if(this.moving || (!this.open && g.dy > 0) || (this.open && g.dy < 0)) {
+                if(this.isMoving || (!this.isOpen && g.dy > 0) || (this.isOpen && g.dy < 0)) {
                     return
                 } else {
                     const offsetY = g.dy;
-
-                    if(!this.open) {
-                        /*s
-                            If you are swiping up quickly and your finger goes off the screen, the View doesn't always open fully (it stops a few px from the top).
-                            This sort of thing happens because the event system couldn't keep up with the fast swipe, and the last event it gets is from a few milliseconds before it hit the top.
-                            You can fix this by always fully opening the View when its `y` is within some distance from the top.
-                            I think you can just add `if (g.y0 <= 100) this.scrollUp();` in your `onPanResponderRelease`
-                         */
-                        if(g.y0 >= 100) this.openPlaying(offsetY);
-                    } else {
-                       this.closePlaying(offsetY);
+                    if(!this.isOpen) {
+                        if(g.y0 >= 100) {
+                            this.openPlaying(offsetY);
+                        }
+                    } 
+                    else {
+                        this.closePlaying(offsetY);
                     }
                 }
 
@@ -141,13 +135,24 @@ export default class Footer extends React.Component {
         })
     }
     render() {
-        return (
+        return (            
             <Animated.View
                 {...this._panResponder.panHandlers}
-                style={[styles.playing, this.getStyle()]}>
-                <PlayingEpisodeContainer/>
+                style={[styles.animatedView, this.getStyle()]}>
+                <TouchableWithoutFeedback
+                    onPress={() => {
+                        console.log("PRESSED")
+                        if (!this.isOpen && !this.isMoving) {
+                            this.openPlaying(-101)
+                            }
+                        }
+                    } style={{flex:1}}>
+                    <View style={{flex:1}}>
+                        <PlayingEpisodeContainer/>
+                    </View>
+                </TouchableWithoutFeedback>
             </Animated.View>
-        
+            
         )
     }
 }
@@ -156,9 +161,9 @@ export default class Footer extends React.Component {
 const window = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    playing: {
-        backgroundColor: "purple",
+    animatedView: {
         height:window.height,
+        backgroundColor:'purple',
     },
 })
 
