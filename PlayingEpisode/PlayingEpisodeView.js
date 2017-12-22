@@ -1,28 +1,88 @@
 import React from 'react';
-import { StyleSheet,Text } from 'react-native';
+import { StyleSheet,Text,NativeModules } from 'react-native';
 import { Row, Grid } from 'react-native-easy-grid'
 import PropTypes from 'prop-types'
-
 import PlayingPodcastInfo from './Components/PlayingPodcastInfo'
 import PodcastControls from './Components/PodcastControls'
+import AudioPlayer from '../common/AudioPlayer'
 
+//const RNStreamingKitManager = NativeModules.RNStreamingKitManager;
 
 export default class PlayingEpisodeView extends React.Component {
     constructor(props) {
         super(props)
-        if (this.props.audioPlayer === undefined || this.props.audioPlayer === {}) {
-            this.props.createPlayer(this.props.currentEpisode.audioLink)
+        this.player = new AudioPlayer(this.props.currentEpisode.audioLink)
+        // TrackPlayer.setupPlayer({playBuffer:10}).then(() => {
+        //     // The player is ready to be used
+        //     if(this.props.currentEpisode.audioLink !== undefined) {
+        //         var firstTrack = {
+        //             id:this.props.currentEpisode.episodeKey,
+        //             url:this.props.currentEpisode.audioLink,
+        //             title:this.props.currentEpisode.episodeTitle,
+        //             artist:this.props.currentEpisode.podcast.title
+        //         }
+        //         console.log(firstTrack)
+        //     }
+        //     TrackPlayer.add([firstTrack])
+        //     this.playerReady = true
+        // });
+    }
+
+    //Starts playing the podast is isPLaying is True
+    playAudio() {
+        if (this.props.isPlaying) {
+            this.player.resume()
+            //TrackPlayer.play()
+        }
+        else {
+            this.player.pause()
+            //TrackPlayer.pause()
         }
     }
 
     playPressed() {
-        if (this.props.isPlaying) {
-            this.props.player.pause()
+        this.props.togglePlaying(this.props.isPlaying)
+    }
+    skipAheadPressed() {
+        this.player.skipAhead()
+    }
+    skipBackPressed() {
+        this.player.skipBack()
+    }
+
+    //Only display "current podcast" if there is a selected current podcast
+    getCurrentPodcastLayout() {
+        if (this.props.currentEpisode.podcast === undefined) {
+            return <Row/>
         }
         else {
-            this.props.player.play()
+            return <Row style={styles.podcastArtRow}>
+                        <PlayingPodcastInfo style={styles.podcastArt} podcastArt={this.props.currentEpisode.podcast.imgFilePath} 
+                        episodeTitle={this.props.currentEpisode.episodeTitle} 
+                        podcastTitle={this.props.currentEpisode.podcast.title}/>
+                    </Row>
         }
-        this.props.togglePlaying(this.props.isPlaying)
+    }
+
+    componentDidUpdate(prevProps,prevState){
+        console.log("COMPONENT DID UPDATEE")
+        //Check if we have to change podcasts
+        console.log(prevProps)
+        if (prevProps.currentEpisode.episodeKey !== this.props.currentEpisode.episodeKey) {
+            this.player.changeFile(this.props.currentEpisode.audioLink)
+            this.player.play()
+            
+            // var nextTrack = {
+            //     id:this.props.currentEpisode.episodeKey,
+            //     url:this.props.currentEpisode.audioLink,
+            //     title:"ExampleTitle",//this.props.currentEpisode.episodeTitle,
+            //     artist:"ExampleArtist",//this.props.currentEpisode.podcast
+            // }
+            // TrackPlayer.add([nextTrack]).then(function() {
+            //     TrackPlayer.skip(nextTrack.id);
+            // })
+        }
+        this.playAudio()
     }
 
     render(){
@@ -30,13 +90,9 @@ export default class PlayingEpisodeView extends React.Component {
         <Grid style = {styles.container}>
             <Row style={styles.topBar}>
             </Row>
-            <Row style={styles.podcastArtRow}>
-                <PlayingPodcastInfo style={styles.podcastArt} podcastArt={this.props.currentEpisode.podcast.imgFilePath} 
-                episodeTitle={this.props.currentEpisode.episodeTitle} 
-                podcastTitle={this.props.currentEpisode.podcast.title}/>
-            </Row>
+            {this.getCurrentPodcastLayout()}
             <Row style={styles.controls}>
-                <PodcastControls playPressed={()=>{this.playPressed()}} isPlaying={this.props.isPlaying}/>
+                <PodcastControls playPressed={()=>{this.playPressed()}} skipAheadPressed={()=>{this.skipAheadPressed()}} skipBackPressed={()=>{this.skipBackPressed()}} isPlaying={this.props.isPlaying}/>
             </Row>
         </Grid>
         )

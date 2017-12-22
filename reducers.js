@@ -69,20 +69,13 @@ export const currentEpisode = (state={}, action) => {
 
 export const selectedPodcast = (state='',action) => {
   switch(action.type) {
-    case C.CHANGE_SELECTED_PODCAST :
+    case C.CHANGE_SELECTED_PODCAST:
       return action.payload
     default:
       return state
   }
 }
 
-export const audioPlayer = (state={},action) => {
-  switch(action.type) {
-    case C.CREATE_NEW_AUDIO_PLAYER:
-      return action.payload
-  }
-  return state
-}
 
 export const isPlaying = (state=false,action) => {
   switch(action.type) {
@@ -97,6 +90,5 @@ export default combineReducers({
     selectedPodcast, 
     nav,
     currentEpisode,
-    audioPlayer,
     isPlaying
 })

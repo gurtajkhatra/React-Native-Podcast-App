@@ -1,6 +1,7 @@
 package com.podcastapp;
 
 import com.facebook.react.ReactActivity;
+import com.leblaaanc.RNStreamingKitManager.RNStreamingKitManagerPackage;
 
 public class MainActivity extends ReactActivity {
 

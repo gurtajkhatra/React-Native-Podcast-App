@@ -3,12 +3,13 @@ import { StyleSheet,Text, TouchableOpacity, FlatList } from 'react-native';
 import Modal from 'react-native-modalbox';
 
 
-export default class MainPage extends React.Component {
+export default class PodcastDescriptionView extends React.Component {
     _keyExtractor = (item, index) => index
     
     _onPressItem = (episode) => {
         //Set the episode details in the state
-        this.props.updatedSelectedEpisode(this.props.currentPodcast,episode)
+        this.props.updatePlayingPodcast(this.props.currentPodcast,episode)
+        this.props.startPlaying()
         //Bring up the "Now Playing" window
         //this.props.navigator.navigate('PlayingEpisodeView')
     };
@@ -18,6 +19,7 @@ export default class MainPage extends React.Component {
             <Text style={styles.podName}> {item['itunes:title']} </Text>
         </TouchableOpacity>
     );
+
     render() {
         return(
             <FlatList

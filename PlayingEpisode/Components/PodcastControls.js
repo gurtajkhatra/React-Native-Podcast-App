@@ -7,20 +7,22 @@ import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 
 export default class PodcastControls extends React.Component {
-    
     render() {
-        console.log("RENDERING")
-        console.log(this.props.isPlaying)
         return(
             <View style={styles.container}>
                 <View style={styles.scrobbler}>
                 </View>
                 <View style={styles.controls}>
-                    {backwardIcon}
+                    <TouchableOpacity onPress={()=>{this.props.skipBackPressed()}} activeOpacity={0.4}>
+                        {backwardIcon}
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => {this.props.playPressed()}} activeOpacity={0.4}>
                     {(this.props.isPlaying) ? (pauseIcon):(playIcon)}
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{this.props.skipAheadPressed()}} activeOpacity={0.4}>
                     {forwardIcon}
+                    </TouchableOpacity>
+                    
                 </View>
                 <View style={styles.moreOptions}>
                 </View>

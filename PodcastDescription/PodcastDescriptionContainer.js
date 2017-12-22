@@ -2,21 +2,27 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux'
 import PodcastDescriptionView from './PodcastDescriptionView'
-import {updatePlayingPodcast} from '../actions'
+import {updatePlayingPodcast,togglePlaying,changePlayerAudioPath} from '../actions'
 
 const mapStateToProps = (state, props) => {
     return ({
         currentPodcast: state.podcasts.subscribedPodcasts[state.selectedPodcast],
+        currentEpisode: state.currentEpisode,
         navigator:props.navigation,
     })
 }
 const mapDispatchToProps = dispatch => 
 ({
-    updatedSelectedEpisode(currentPodcast,episodeInfo) {
+    updatePlayingPodcast(currentPodcast,episodeInfo) {
         dispatch(
             updatePlayingPodcast(currentPodcast,episodeInfo)
         )
       },
+    startPlaying() {
+        dispatch(
+            togglePlaying(false)
+        )
+    }
 })	
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(PodcastDescriptionView)	

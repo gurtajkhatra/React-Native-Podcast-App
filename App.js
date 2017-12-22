@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import storeFactory from './store'
 import { PersistGate } from 'redux-persist/es/integration/react'
 import AppWithNavigationState from './AppNavigator';
-import {Player,MediaStates} from 'react-native-audio-toolkit';
 import Footer from './common/footer'
 
 const window = Dimensions.get('window');
