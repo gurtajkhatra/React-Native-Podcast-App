@@ -1,4 +1,6 @@
 rootProject.name = 'PodcastApp'
+include ':react-native-blur'
+project(':react-native-blur').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-blur/android')
 include ':react-native-track-player'
 project(':react-native-track-player').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-track-player/android')
 include ':react-native-vector-icons'

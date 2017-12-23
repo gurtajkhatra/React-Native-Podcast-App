@@ -6,6 +6,7 @@ import { responsiveFontSize, responsiveWidth, responsiveHeight } from 'react-nat
 
 
 export default class MainPageNavBar extends React.Component {
+
     render() {
         const SettingsIcon = (
             <Icon name="more-vert" style={[styles.icon,styles.settingsIcon]}/>

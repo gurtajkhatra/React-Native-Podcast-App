@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-blur')
     compile project(':react-native-streamingkit')
     compile project(':react-native-track-player')
     compile project(':react-native-vector-icons')
