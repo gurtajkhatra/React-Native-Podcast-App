@@ -14,6 +14,7 @@ export default class PodcastBrowser extends React.Component {
     createiTunesLink(searchQuery,results=25) {
         return "https://itunes.apple.com/search?term=" +  encodeURIComponent(searchQuery) + "&media=podcast&attribute=titleTerm&limit="+results
     }
+
     searchTextChanged(newText) {
         iTunesLink = this.createiTunesLink(newText)
         fetch(iTunesLink).then((response) => {
@@ -27,11 +28,18 @@ export default class PodcastBrowser extends React.Component {
         })
     }
 
+    goToPodcastDescription(podcast) {
+        this.props.changeSelectedPodcast(podcast, () => {
+            this.props.navigation.navigate("PodcastDescriptionView")
+        })
+        
+    }
+
     _keyExtractor = (item, index) => index
     
     
     _renderItem = ({item}) => {
-        return <SearchResult podcastTitle={item.collectionName}/>
+        return <SearchResult podcast={item} onPress={(podcastSelected) => this.goToPodcastDescription(podcastSelected)}/>
     }
     render() {
         return(

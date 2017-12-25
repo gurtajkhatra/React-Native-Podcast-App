@@ -11,8 +11,8 @@ export default class YourPodcastsView extends React.Component {
         super(props)
         this.goToPodcastDescription = this.goToPodcastDescription.bind(this)
     }
-    goToPodcastDescription(podcastKey) {
-        this.props.selectPodcast(podcastKey)
+    goToPodcastDescription(podcastInfo) {
+        this.props.selectPodcast(podcastInfo)
         this.props.navigation.navigate("PodcastDescriptionView")
     }
     render() {
@@ -22,7 +22,7 @@ export default class YourPodcastsView extends React.Component {
                     <YourPodcastsNavBar/>
                 </Row>
                 <Row style={styles.podcasts}>
-                    <PodcastsScrollView pods={this.props.subbedPods} buttonClicked={(podcastKey) => {this.goToPodcastDescription(podcastKey)}}/>
+                    <PodcastsScrollView pods={this.props.subbedPods} buttonClicked={(podcastInfo) => {this.goToPodcastDescription(podcastInfo)}}/>
                 </Row>
                 <Row style={styles.currentlyPlayingArea}>
                 </Row>

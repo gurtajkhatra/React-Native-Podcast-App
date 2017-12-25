@@ -6,7 +6,7 @@ import { updateSelectedPodcast,addNewPodcast } from '../actions'
 
 const mapStateToProps = (state, props) => {
   return ({
-    subbedPods: (state.podcasts.subscribedPodcasts)===undefined ? []:Object.values(state.podcasts.subscribedPodcasts),
+    subbedPods: (state.subscribedPodcasts)===undefined ? []:Object.values(state.subscribedPodcasts),
     navigator:state.nav,
   })
 }
@@ -17,9 +17,9 @@ const mapDispatchToProps = dispatch =>
       addNewPodcast(rssFeedLink)
     )
   },
-  selectPodcast(podcastKey) {
+  selectPodcast(podcastInfo) {
     dispatch(
-      updateSelectedPodcast(podcastKey)
+      updateSelectedPodcast(podcastInfo)
     )
   }
 })	

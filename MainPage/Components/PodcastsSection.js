@@ -15,7 +15,7 @@ export default class PodcastsSection extends React.Component {
                     data={this.props.pods}
                     renderItem={({item}) => {
                         if (item.imgFilePath !== '') {
-                            return <PodcastButton style={[styles.podcastArt]} buttonClicked={() => {this.props.onPodcastPress(item.key)}} pod={item}/>//<Image style={[styles.podcastArt]} source={{uri:item.imgFilePath}}/>
+                            return <PodcastButton style={[styles.podcastArt]} buttonClicked={() => {this.props.onPodcastPress(item)}} pod={item}/>
                         }
                     }
                 }

@@ -6,9 +6,7 @@ import PodcastDescriptionButton from './PodcastDescriptionButton'
 
 const ICON_SIZE = 26
 export default class PodcastDescriptionButtons extends React.Component {
-    _onPress() {
-        console.log("Pressed")
-    }
+    
     render() {
         const subscribeIcon = <Icon name="rss-feed" size={ICON_SIZE} style={styles.subscribeIcon}/>
         const favoriteIcon = <Icon name="favorite-border" size={ICON_SIZE} style={styles.subscribeIcon}/>
@@ -16,10 +14,10 @@ export default class PodcastDescriptionButtons extends React.Component {
         const settingsIcon = <Icon name="settings" size={ICON_SIZE} style={styles.settingsIcon}/>
         return(
             <View style={[{height:this.props.buttonHeight},styles.container]}>
-                <PodcastDescriptionButton icon={subscribeIcon} iconDescription={"Subscribe"} onPress={() => this._onPress()}/>
-                <PodcastDescriptionButton icon={favoriteIcon} iconDescription={"Favorite"} onPress={() => this._onPress()}/>
-                <PodcastDescriptionButton icon={filterIcon} iconDescription={"Filter"} onPress={() => this._onPress()}/>
-                <PodcastDescriptionButton icon={settingsIcon} iconDescription={"Settings"} onPress={() => this._onPress()}/>
+                <PodcastDescriptionButton icon={subscribeIcon} iconDescription={"Subscribe"} onPress={() => this.props.onPress('subscribe')}/>
+                <PodcastDescriptionButton icon={favoriteIcon} iconDescription={"Favorite"} onPress={() => this.props.onPress("favorite")}/>
+                <PodcastDescriptionButton icon={filterIcon} iconDescription={"Filter"} onPress={() => this.props.onPress("filter")}/>
+                <PodcastDescriptionButton icon={settingsIcon} iconDescription={"Settings"} onPress={() => this.props.onPress("settings")}/>
             </View>
         )
     }

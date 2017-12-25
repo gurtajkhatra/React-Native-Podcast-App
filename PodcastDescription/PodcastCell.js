@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
         flex:2,
         borderRadius:25,
         borderWidth: 0,
-        // borderColor: '#fff'
     },
     podcastImg: {
         position:'absolute',
@@ -72,7 +71,6 @@ const styles = StyleSheet.create({
         width:"100%",
         flexDirection:'column',
         justifyContent:"flex-end",
-
     },
     text: {
         paddingLeft:15,
@@ -83,7 +81,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0)',
         color:'black',
         fontWeight:"800",
-        paddingRight:5,
+        paddingRight:10,
+        marginBottom:5,
         paddingTop:5
     },
     episodeCount: {

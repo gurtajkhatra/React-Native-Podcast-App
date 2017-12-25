@@ -6,7 +6,7 @@ import {updatePlayingPodcast,togglePlaying,changePlayerAudioPath} from '../actio
 
 const mapStateToProps = (state, props) => {
     return ({
-        currentPodcast: state.podcasts.subscribedPodcasts[state.selectedPodcast],
+        currentPodcast: state.selectedPodcast,
         currentEpisode: state.currentEpisode,
         navigator:props.navigation,
     })
@@ -21,6 +21,11 @@ const mapDispatchToProps = dispatch =>
     startPlaying() {
         dispatch(
             togglePlaying(false)
+        )
+    },
+    toggledSubscriptionToPodcast(podcast) {
+        dispatch(
+            toggledSubscriptionToPodcast(podcast)
         )
     }
 })	

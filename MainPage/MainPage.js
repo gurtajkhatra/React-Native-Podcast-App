@@ -12,8 +12,8 @@ export default class MainPage extends React.Component {
         this.goToPodcastDescription = this.goToPodcastDescription.bind(this)
         this.goToPodcastBrowser = this.goToPodcastBrowser.bind(this)
     }
-    goToPodcastDescription(podcastKey) {
-        this.props.selectPodcast(podcastKey)
+    goToPodcastDescription(podcastInfo) {
+        this.props.selectPodcast(podcastInfo)
         this.props.navigation.navigate("PodcastDescriptionView")
     }
     goToPodcastBrowser() {
@@ -39,7 +39,7 @@ export default class MainPage extends React.Component {
                 </Row>
                 <Row style={styles.podcasts}>
                     <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="New Episodes" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/>
-                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Podcasts" onPodcastPress={(podcastKey) => {this.goToPodcastDescription(podcastKey)}} onTitlePress={()=>navigator.navigate('YourPodcastsView')}/>
+                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Podcasts" onPodcastPress={(podcastInfo) => {this.goToPodcastDescription(podcastInfo)}} onTitlePress={()=>navigator.navigate('YourPodcastsView')}/>
                     <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Playlists" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/>
                 </Row>
             </Grid>

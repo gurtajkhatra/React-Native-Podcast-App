@@ -29,7 +29,7 @@ export default class PodcastsScrollView extends React.Component {
     }
     _renderItem = (item) => {
         return (
-            <PodcastButton style={this.state} buttonClicked = {()=>this.props.buttonClicked} pod = {item.item} />
+            <PodcastButton style={this.state} buttonClicked = {(podcastInfo)=>this.props.buttonClicked(podcastInfo)} pod = {item.item} />
             //<Image style={this.state} source={{uri:item.item.imgFilePath}}/>
         )
     }

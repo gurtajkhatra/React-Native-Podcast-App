@@ -5,7 +5,7 @@ import { AppNavigator } from './AppNavigator';
 
 
 //Initial Navigation State
-const firstAction = AppNavigator.router.getActionForPathAndParams('PodcastDescriptionView');
+const firstAction = AppNavigator.router.getActionForPathAndParams('MainPageView');
 const initialNavState = AppNavigator.router.getStateForAction(firstAction);
 
 function nav(state = initialNavState, action) {
@@ -32,20 +32,17 @@ function nav(state = initialNavState, action) {
 }
 
 
-export const podcasts = (state={}, action) => {
+export const subscribedPodcasts = (state={}, action) => {
       switch(action.type) {
         case C.ADD_PODCAST : 
             podInfo = action.payload
             newState = Object.assign({}, state)
-            if (newState.subscribedPodcasts === undefined) {
-                newState = {'subscribedPodcasts':{}}
-            }
-            newState.subscribedPodcasts[action.payload.title] = action.payload
+            newState[action.payload.title] = action.payload
             return newState
         case C.ADD_PODCAST_IMG_FP:
-            if (state.subscribedPodcasts !== undefined) {
+            if (state !== undefined) {
               newState = Object.assign({}, state)
-              newState.subscribedPodcasts[action.payload.podTitle].imgFilePath = action.payload.filePath
+              newState[action.payload.podTitle].imgFilePath = action.payload.filePath
               return newState
             }
             return state
@@ -86,7 +83,7 @@ export const isPlaying = (state=false,action) => {
 }
 
 export default combineReducers({
-    podcasts,
+    subscribedPodcasts,
     selectedPodcast, 
     nav,
     currentEpisode,

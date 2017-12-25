@@ -10,12 +10,11 @@ const window = Dimensions.get('window');
 const FOOTER_HEIGHT = window.height/10
 const REST_OF_APP_HEIGHT = (window.height*9)/10
 
-const saveState = () => {
-  console.log("SAVING STATE...")
-  console.log(store.getState())
-}
+// const saveState = () => {
+//   console.log("SAVING STATE...")
+// }
 const { persistor, store } = storeFactory()
-store.subscribe(saveState)
+//store.subscribe(saveState)
 
 
 

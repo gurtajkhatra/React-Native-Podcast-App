@@ -27,11 +27,22 @@ const downloadFromUrl = (url,fileName) => {
     return prom
 }
 
-//Changes the currently selected podcast
-export const updateSelectedPodcast = (podcastKey) => {
+//Changes the currently selected podcast from the browser (i.e. unsure if subscribed to or not)
+export const updateSelectedPodcastFromRssLink = (rssLink,callback) => dispatch => {
+    getPodcastInfoFromRss(rssLink,(podcastInfo) => {
+        dispatch (
+            updateSelectedPodcast(podcastInfo)
+        )
+        callback()
+    })
+}
+
+//Changes the currently selected podcast from already subscribed to podcasts
+export const updateSelectedPodcast = (podcastInfo) => {
+    console.log(podcastInfo)
     return {
         type:C.CHANGE_SELECTED_PODCAST,
-        payload:podcastKey
+        payload:podcastInfo
     }
 }
 
@@ -61,46 +72,63 @@ export const updatePlayingPodcast = (podcastTitle, episodeObj, currTimestamp=0) 
     }
 }
 
-//Adds a new podcast to the users "subscribed" podcasts
-export const addNewPodcast = rssFeedUrl => dispatch => {
+const getPodcastInfoFromRss = (rssFeedUrl,callback) => {
     fetch(rssFeedUrl)
-        .then(response => {
-            const xmlText = response._bodyText
-            parseString(xmlText, function (err, result) {
-                const channelInfo = result.rss.channel[0]
-                const title = channelInfo.title[0]
-                const imgLink =  channelInfo.image["0"].url[0]
-                const fn = '/podcastData/podcastArtwork/' + sanitize(title)
-                var podInfo = {
-                    key:title,
-                    title: title,
-                    summary: channelInfo['itunes:summary'][0],
-                    imgLink: imgLink,
-                    imgFilePath:'',
-                    rssLink:rssFeedUrl,
-                    episodesArray: channelInfo.item 
-                }
-                dispatch({
-                    type: C.ADD_PODCAST,
-                    payload: podInfo
-                })
-                downloadFromUrl(imgLink,fn).then(fp => {
-                    dispatch({
-                        type:C.ADD_PODCAST_IMG_FP,
-                        payload:{
-                            podTitle:title,
-                            filePath:fp,
-                        }
-                    })
-                })
-            });
+    .then(response => {
+        const xmlText = response._bodyText
+        parseString(xmlText, function (err, result) {
+            const channelInfo = result.rss.channel[0]
+            const title = channelInfo.title[0]
+            const imgLink =  channelInfo.image[0].url[0]
+            const imageFileName = '/podcastData/podcastArtwork/' + sanitize(title)
+            const description =  channelInfo['description'][0]
+            var podInfo = {
+                key:title,
+                title: title,
+                summary: description,
+                imgLink: imgLink,
+                imgFilePath:'',
+                rssLink:rssFeedUrl,
+                episodesArray: channelInfo.item 
+            }
+            callback(podInfo,imageFileName)
         })
-        .catch(error => {
+    }).catch(error => {
             console.log(error)
             dispatch({
                 type: C.HANDLE_ERROR,
                 payload: error,
             })
         })
-    
-    }
+}
+
+//Adds a new podcast to the users "subscribed" podcasts
+export const addNewPodcast = rssFeedUrl => dispatch => {
+    getPodcastInfoFromRss(rssFeedUrl,(parsedInfo, imageFileName) => {
+        dispatch({
+            type: C.ADD_PODCAST,
+            payload: parsedInfo
+        })
+        downloadFromUrl(parsedInfo.imgLink,imageFileName).then(fp => {
+            dispatch({
+                type:C.ADD_PODCAST_IMG_FP,
+                payload:{
+                    podTitle:parsedInfo.title,
+                    filePath:fp,
+                }
+            })
+        })
+    })
+}
+    // .then((err,result) => {
+    //     console.log(result)
+    // }).catch(error => {
+    //     console.log(error)
+    //     dispatch({
+    //         type: C.HANDLE_ERROR,
+    //         payload: error,
+    //     })
+    // })
+  
+    // })
+// export const removePodcastFromSubscribed

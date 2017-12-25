@@ -12,15 +12,25 @@ const PODCAST_BUTTON_HEIGHT = 75
 
 export default class PodcastDescriptionView extends React.Component {
     _keyExtractor = (item, index) => index
+
+    _onButtonPress(button) {
+        if (button === 'subscribe') {
+            console.log("Subscribe")
+        }
+        else {
+            console.log("Pressed")
+        }
+        
+    }
     
-    _onPressItem = (episode) => {
+    _onEpisodePress = (episode) => {
         //Set the episode details in the state
         this.props.updatePlayingPodcast(this.props.currentPodcast,episode)
         this.props.startPlaying()
     };
     
     _renderItem = ({item}) => {
-        //Render the head (Podcast information, buttons, and linebreaks)
+        //Render the header (Podcast information, buttons, and linebreaks)
         if ('imgFilePath' in item) {
             const podcastTitle = item.title
             const podcastDescription = item.summary
@@ -37,7 +47,7 @@ export default class PodcastDescriptionView extends React.Component {
                 <View style = {styles.lineBreakContainer}>
                     <View style = {styles.lineBreak}/>
                 </View>
-                <PodcastDescriptionButtons buttonHeight={PODCAST_BUTTON_HEIGHT}/>
+                <PodcastDescriptionButtons buttonHeight={PODCAST_BUTTON_HEIGHT} onPress={(buttonType) => this._onButtonPress(buttonType)}/>
                 <View style = {styles.episodesBreak}>
                     <View style={styles.lineHalfContainer}>
                         <View style={styles.lineHalf}/>
@@ -51,10 +61,10 @@ export default class PodcastDescriptionView extends React.Component {
             )
         }
         else {
-            const episodeTitle = item['itunes:title'][0]
-            const episodeDescription = item['itunes:summary'][0]
+            const episodeTitle = item['title'][0]
+            const episodeDescription = item['description'][0]
             return <EpisodeCell style={styles.episodeCell}
-                                onPress={() => {this._onPressItem(item)}} 
+                                onPress={() => {this._onEpisodePress(item)}} 
                                 episodeTitle={episodeTitle}
                                 episodeDescription={episodeDescription}
                                 boxHeight={EPISODE_CELL_HEIGHT}/>  
@@ -68,7 +78,7 @@ export default class PodcastDescriptionView extends React.Component {
                 </View>
                 <View style={styles.scrollView}>
                     <FlatList
-                    data={[this.props.currentPodcast].concat(this.props.currentPodcast.episodesArray)}//{this.props.currentPodcast.episodesArray}
+                    data={[this.props.currentPodcast].concat(this.props.currentPodcast.episodesArray)}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
                     /> 

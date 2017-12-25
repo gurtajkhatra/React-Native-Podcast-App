@@ -6,16 +6,16 @@ import {updateSelectedPodcast} from '../actions'
 
 const mapStateToProps = (state, props) =>
 ({
-  subbedPods: (state.podcasts.subscribedPodcasts)===undefined ? []:Object.values(state.podcasts.subscribedPodcasts),
+  subbedPods: (state.subscribedPodcasts)===undefined ? []:Object.values(state.subscribedPodcasts),
   navigator:state.nav,
 })
 
 
 const mapDispatchToProps = dispatch => 
 ({
-  selectPodcast(podcastKey) {
+  selectPodcast(podcastInfo) {
     dispatch(
-      updateSelectedPodcast(podcastKey)
+      updateSelectedPodcast(podcastInfo)
     )
   }
 })

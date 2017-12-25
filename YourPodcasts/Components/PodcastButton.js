@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 export default class PodcastButton extends React.Component{
     render(){
         return (
-        <TouchableOpacity onPress={()=>{this.props.buttonClicked(this.props.pod.key)}} activeOpacity={0.4}>
+        <TouchableOpacity onPress={()=>{this.props.buttonClicked(this.props.pod)}} activeOpacity={0.4}>
             <Image style={this.props.style} source={{uri:this.props.pod.imgFilePath}}/>
         </TouchableOpacity>
         )
