@@ -20,7 +20,7 @@ export default class PodcastCell extends React.Component {
     render() {
         return (
             <TouchableOpacity onPress = {() => this._onPress()} activeOpacity={0.9}>
-                <ElevatedView elevation={3} style={[this.props.style]}>
+                <View style={[this.props.style]}>
                     <View style={styles.container}>
                         <View style={[{height:this.props.boxHeight},styles.titleBox]}>
                             <Image source={{uri:this.props.podcastImgFilePath}} style={styles.podcastImg}>
@@ -29,14 +29,15 @@ export default class PodcastCell extends React.Component {
                                 style={styles.podcastImg}
                                 blurType="regular"
                                 blurAmount={5}>
-                                <Text style = {styles.titleText}>{this.props.podcastTitle} </Text>
                             </BlurView>
                         </View>
                         <View style={styles.descriptionBox}>
-                            <Text numberOfLines={(this.state.showDescription ? (99999):(3))} style = {styles.descriptionText}>{this.props.podcastDescription}</Text>
+                            <Text style = {[styles.text,styles.titleText]}>{this.props.podcastTitle}</Text>
+                            {/* <Text style = {[styles.text,styles.episodeCount]}>{this.props.episodeCount} Episodes</Text> */}
+                            <Text numberOfLines={(this.state.showDescription ? (99999):(3))} style = {[styles.text,styles.descriptionText]}>{this.props.podcastDescription}</Text>
                         </View>
                     </View>
-                </ElevatedView>
+                </View>
             </TouchableOpacity>
         ) 
     }
@@ -57,10 +58,13 @@ const styles = StyleSheet.create({
     titleBox: {
         flexDirection:"row",
         alignContent:"flex-start",
-        flex:3,
+        flex:4,
     },
     descriptionBox: {
         flex:2,
+        borderRadius:25,
+        borderWidth: 0,
+        // borderColor: '#fff'
     },
     podcastImg: {
         position:'absolute',
@@ -70,21 +74,27 @@ const styles = StyleSheet.create({
         justifyContent:"flex-end",
 
     },
+    text: {
+        paddingLeft:15,
+    },
     titleText: {
         fontSize:26,
         fontFamily:StyleGuide.titleFont,
-        backgroundColor: 'rgba(52, 52, 52, 0)',
-        color:'white',
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        color:'black',
         fontWeight:"800",
-        paddingBottom:5,
         paddingRight:5,
-        paddingLeft:15,
+        paddingTop:5
+    },
+    episodeCount: {
+        fontSize:16,
+        fontFamily:StyleGuide.bodyFont,
+        color:'rgba(0, 0, 0, 0.7)',
     },
     descriptionText: {
         fontFamily:StyleGuide.bodyFont,
-        paddingTop:10,
+        color:'rgba(0, 0, 0, 0.7)',
         paddingRight:10,
-        paddingLeft:15,
         paddingBottom:10,
     }
 })
