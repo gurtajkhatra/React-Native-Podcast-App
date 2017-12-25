@@ -9,14 +9,12 @@ export default class PodcastDescriptionView extends React.Component {
     _keyExtractor = (item, index) => index
     
     _onPressItem = (episode) => {
-        console.log("CLICK")
         //Set the episode details in the state
         this.props.updatePlayingPodcast(this.props.currentPodcast,episode)
         this.props.startPlaying()
     };
     
     _renderItem = ({item}) => {
-        console.log(item)
         if ('imgFilePath' in item) {
             const podcastTitle = item.title
             const podcastDescription = item.summary

@@ -141,7 +141,6 @@ export default class Footer extends React.Component {
                 style={[styles.animatedView, this.getStyle()]}>
                 <TouchableWithoutFeedback
                     onPress={() => {
-                        console.log("PRESSED")
                         if (!this.isOpen && !this.isMoving) {
                             this.openPlaying(-101)
                             }

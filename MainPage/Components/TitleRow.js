@@ -3,7 +3,7 @@ import { Row } from "react-native-easy-grid";
 import { StyleSheet, Text,TouchableOpacity } from 'react-native';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import Icon from 'react-native-vector-icons/MaterialIcons'
-
+import StyleGuide from '../../common/styleguide'
 
 
 export default class TitleRow extends React.Component{
@@ -14,8 +14,8 @@ export default class TitleRow extends React.Component{
         return (
             <TouchableOpacity style={styles.tappableArea} onPress={() => this.props.onTitlePress()} activeOpacity={0.4}>
                 <Row style={styles.titleRow}>
-                        <Text style={styles.titleText}> {this.props.title} </Text>
-                        {NextIcon}
+                        <Text style={styles.titleText}>{this.props.title}</Text>
+                        {/* {NextIcon} */}
                 </Row>
             </TouchableOpacity>
         );
@@ -25,14 +25,15 @@ export default class TitleRow extends React.Component{
 const styles = StyleSheet.create({
     titleRow: {
         flex:1,
-        alignItems:"center",
+        alignItems:"flex-end",
+        paddingBottom:3,
     },
     tappableArea: {
         flex:1,
     },
     titleText: {
-        fontSize: responsiveFontSize(2.64084507),
-        //fontFamily: 'open-sans-bold',
+        fontSize: responsiveFontSize(3.24084507),
+        fontFamily: StyleGuide.titleFont,
     },
     nextIcon: {
         fontSize:responsiveFontSize(2.64084507),

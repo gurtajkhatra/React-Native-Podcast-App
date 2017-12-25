@@ -3,6 +3,7 @@ import { Image,View, StyleSheet,Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import ElevatedView from 'react-native-elevated-view'
 import { BlurView } from 'react-native-blur';
+import StyleGuide from '../common/styleguide'
 
 export default class PodcastCell extends React.Component {
     constructor(props) {
@@ -26,8 +27,8 @@ export default class PodcastCell extends React.Component {
                             </Image>
                             <BlurView
                                 style={styles.podcastImg}
-                                blurType="dark"
-                                blurAmount={2}>
+                                blurType="regular"
+                                blurAmount={5}>
                                 <Text style = {styles.titleText}>{this.props.podcastTitle} </Text>
                             </BlurView>
                         </View>
@@ -70,7 +71,8 @@ const styles = StyleSheet.create({
 
     },
     titleText: {
-        fontSize:20,
+        fontSize:26,
+        fontFamily:StyleGuide.titleFont,
         backgroundColor: 'rgba(52, 52, 52, 0)',
         color:'white',
         fontWeight:"800",
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
         paddingLeft:15,
     },
     descriptionText: {
+        fontFamily:StyleGuide.bodyFont,
         paddingTop:10,
         paddingRight:10,
         paddingLeft:15,

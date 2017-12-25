@@ -5,14 +5,19 @@ import MainPageNavBar from './Components/MainPageNavBar'
 import PodcastsSection from './Components/PodcastsSection'
 import { responsiveWidth } from 'react-native-responsive-dimensions';
 
+
 export default class MainPage extends React.Component {
     constructor(props) {
         super(props)
         this.goToPodcastDescription = this.goToPodcastDescription.bind(this)
+        this.goToPodcastBrowser = this.goToPodcastBrowser.bind(this)
     }
     goToPodcastDescription(podcastKey) {
         this.props.selectPodcast(podcastKey)
         this.props.navigation.navigate("PodcastDescriptionView")
+    }
+    goToPodcastBrowser() {
+        this.props.navigation.navigate("PodcastBrowserView")
     }
     componentDidMount() {
         // var pods = [
@@ -30,7 +35,7 @@ export default class MainPage extends React.Component {
         return(
             <Grid style = {styles.container}>
                 <Row style={styles.navBar}>
-                    <MainPageNavBar/>
+                    <MainPageNavBar addPodcastPressed={()=>this.goToPodcastBrowser()}/>
                 </Row>
                 <Row style={styles.podcasts}>
                     <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="New Episodes" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/>

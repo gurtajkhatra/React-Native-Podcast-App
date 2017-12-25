@@ -7,6 +7,7 @@ import MainPageContainer from './MainPage/MainPageContainer';
 import YourPodcastsViewContainer from './YourPodcasts/YourPodcastsViewContainer';
 import PodcastDescriptionContainer from './PodcastDescription/PodcastDescriptionContainer'
 import PlayingEpisodeContainer from './PlayingEpisode/PlayingEpisodeContainer'
+import PodcastBrowserContainer from "./PodcastBrowser/PodcastBrowserContainer"
 
 export const AppNavigator = StackNavigator(
   {
@@ -14,6 +15,7 @@ export const AppNavigator = StackNavigator(
     YourPodcastsView: { screen: YourPodcastsViewContainer },
     PodcastDescriptionView: { screen:PodcastDescriptionContainer},
     PlayingEpisodeView:{ screen:PlayingEpisodeContainer },
+    PodcastBrowserView:{ screen:PodcastBrowserContainer },
   },
   { 
     headerMode:"none",

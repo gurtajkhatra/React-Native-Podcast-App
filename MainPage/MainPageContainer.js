@@ -1,6 +1,5 @@
 import React from 'react';
 import MainPage from './MainPage';
-import { View } from 'react-native';
 import { connect } from 'react-redux'
 import { updateSelectedPodcast,addNewPodcast } from '../actions'
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity,View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { responsiveFontSize, responsiveWidth, responsiveHeight } from 'react-native-responsive-dimensions';
@@ -12,7 +12,11 @@ export default class MainPageNavBar extends React.Component {
             <Icon name="more-vert" style={[styles.icon,styles.settingsIcon]}/>
           );
         const AddIcon = (
-            <Icon name="add" style={[styles.icon,styles.addIcon]}/>
+            <TouchableOpacity onPress={()=>this.props.addPodcastPressed()}>
+                <View style={styles.addButtonView}>
+                    <Icon name="add" style={[styles.icon,styles.addIcon]}/>
+                </View>
+            </TouchableOpacity>
           );
         return (
             <Grid style={styles.container}>
@@ -38,6 +42,8 @@ const styles = StyleSheet.create({
     },
     addIcon: {
         //paddingRight:responsiveWidth(7.8125),
+    },
+    addButtonView: {
     },
     r1: {
         flex:1,

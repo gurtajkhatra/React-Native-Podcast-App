@@ -65,9 +65,7 @@ export default class PlayingEpisodeView extends React.Component {
     }
 
     componentDidUpdate(prevProps,prevState){
-        console.log("COMPONENT DID UPDATEE")
         //Check if we have to change podcasts
-        console.log(prevProps)
         if (prevProps.currentEpisode.episodeKey !== this.props.currentEpisode.episodeKey) {
             this.player.changeFile(this.props.currentEpisode.audioLink)
             this.player.play()

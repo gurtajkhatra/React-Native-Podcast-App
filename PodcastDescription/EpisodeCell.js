@@ -16,7 +16,7 @@ export default class EpisodeCell extends React.Component {
                 <View style={styles.container}>
                     <View style={styles.textSide}>
                         <View style={styles.titleBox}>
-                            <Text numberOfLines={2} style={styles.titleText}>{this.props.episodeTitle} </Text>
+                            <Text numberOfLines={1} style={styles.titleText}>{this.props.episodeTitle} </Text>
                         </View>
                         <View style={styles.descriptionBox}>
                             <Text numberOfLines={2} style={styles.descriptionText}>{this.props.episodeDescription} </Text>
@@ -56,13 +56,12 @@ const styles = StyleSheet.create({
     titleBox: {
         paddingLeft:10,
         paddingTop:15,
-        paddingBottom:5,
         flex:1,
         justifyContent:'center'
     },
     descriptionBox: {
         paddingLeft:10,
-        paddingTop:5,
+        paddingTop:0,
         flex:2,
         justifyContent:'flex-start'
     },

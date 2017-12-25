@@ -4,8 +4,8 @@ import { NavigationActions } from 'react-navigation';
 import { AppNavigator } from './AppNavigator';
 
 
-// Start with two routes: The Main screen, with the Login screen on top.
-const firstAction = AppNavigator.router.getActionForPathAndParams('MainPageView');
+//Initial Navigation State
+const firstAction = AppNavigator.router.getActionForPathAndParams('PodcastDescriptionView');
 const initialNavState = AppNavigator.router.getStateForAction(firstAction);
 
 function nav(state = initialNavState, action) {

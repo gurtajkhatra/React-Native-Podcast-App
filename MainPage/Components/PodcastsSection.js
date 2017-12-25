@@ -4,6 +4,7 @@ import { Image,StyleSheet, Text, View, FlatList,ScrollView  } from 'react-native
 import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 import TitleRow from './TitleRow'
 import PodcastButton from '../../YourPodcasts/Components/PodcastButton'
+
 export default class PodcastsSection extends React.Component {
     render() {
         return(
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
         flex:3,
     },
     podcastArt: {
-        height:'95%',
+        height:'97%',
         aspectRatio:1,
         marginRight:5,
     }
