@@ -21,10 +21,10 @@ export default class MainPage extends React.Component {
     }
     componentDidMount() {
         // var pods = [
-        //     'https://www.npr.org/rss/podcast.php?id=510289',
-        //     'http://feeds.podtrac.com/zKq6WZZLTlbM',
+        //     'http://rss.art19.com/the-daily',
         //     'http://rss.earwolf.com/comedy-bang-bang',
-        //     'http://comedybutton.libsyn.com/rss'
+        //     'http://comedybutton.libsyn.com/rss',
+        //     'https://www.npr.org/rss/podcast.php?id=510289',
         // ]
         // for (i=0;i<pods.length;i++){
         //     this.props.getPodcastData(pods[i])

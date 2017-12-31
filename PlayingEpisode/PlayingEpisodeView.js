@@ -6,12 +6,11 @@ import PlayingPodcastInfo from './Components/PlayingPodcastInfo'
 import PodcastControls from './Components/PodcastControls'
 import AudioPlayer from '../common/AudioPlayer'
 
-//const RNStreamingKitManager = NativeModules.RNStreamingKitManager;
-
 export default class PlayingEpisodeView extends React.Component {
     constructor(props) {
         super(props)
-        this.player = new AudioPlayer(this.props.currentEpisode.audioLink)
+        const audioLink = Object.keys(this.props.currentEpisode).length === 0 ? '':this.props.currentEpisode.audioLink
+        this.player = new AudioPlayer(audioLink)
         // TrackPlayer.setupPlayer({playBuffer:10}).then(() => {
         //     // The player is ready to be used
         //     if(this.props.currentEpisode.audioLink !== undefined) {
@@ -67,8 +66,9 @@ export default class PlayingEpisodeView extends React.Component {
     componentDidUpdate(prevProps,prevState){
         //Check if we have to change podcasts
         if (prevProps.currentEpisode.episodeKey !== this.props.currentEpisode.episodeKey) {
-            this.player.changeFile(this.props.currentEpisode.audioLink)
-            this.player.play()
+            this.player.changeFile(this.props.currentEpisode.audioLink, () => {
+                this.player.play()
+            })
             
             // var nextTrack = {
             //     id:this.props.currentEpisode.episodeKey,
@@ -80,7 +80,13 @@ export default class PlayingEpisodeView extends React.Component {
             //     TrackPlayer.skip(nextTrack.id);
             // })
         }
-        this.playAudio()
+        //Otherwise just react to the change
+        else {
+            if(Object.keys(this.props.currentEpisode).length !== 0) {
+                this.playAudio()
+            }
+        }
+        
     }
 
     render(){

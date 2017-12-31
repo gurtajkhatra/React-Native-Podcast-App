@@ -7,6 +7,7 @@ import Platform from 'react-native'
 
 
 
+
 let docDir = RNFetchBlob.fs.dirs.DocumentDir
 
 //Downloads from a url and returns the file path where it is saved
@@ -39,7 +40,6 @@ export const updateSelectedPodcastFromRssLink = (rssLink,callback) => dispatch =
 
 //Changes the currently selected podcast from already subscribed to podcasts
 export const updateSelectedPodcast = (podcastInfo) => {
-    console.log(podcastInfo)
     return {
         type:C.CHANGE_SELECTED_PODCAST,
         payload:podcastInfo
@@ -72,7 +72,7 @@ export const updatePlayingPodcast = (podcastTitle, episodeObj, currTimestamp=0) 
     }
 }
 
-const getPodcastInfoFromRss = (rssFeedUrl,callback) => {
+const getPodcastInfoFromRss = (rssFeedUrl,callback) => dispatch => {
     fetch(rssFeedUrl)
     .then(response => {
         const xmlText = response._bodyText
@@ -80,7 +80,6 @@ const getPodcastInfoFromRss = (rssFeedUrl,callback) => {
             const channelInfo = result.rss.channel[0]
             const title = channelInfo.title[0]
             const imgLink =  channelInfo.image[0].url[0]
-            const imageFileName = '/podcastData/podcastArtwork/' + sanitize(title)
             const description =  channelInfo['description'][0]
             var podInfo = {
                 key:title,
@@ -91,7 +90,7 @@ const getPodcastInfoFromRss = (rssFeedUrl,callback) => {
                 rssLink:rssFeedUrl,
                 episodesArray: channelInfo.item 
             }
-            callback(podInfo,imageFileName)
+            callback(podInfo)
         })
     }).catch(error => {
             console.log(error)
@@ -102,33 +101,34 @@ const getPodcastInfoFromRss = (rssFeedUrl,callback) => {
         })
 }
 
+export const addNewPodcastFromRssLink = link => dispatch => {
+    getPodcastInfoFromRss(link, (podInfo) => {
+        (addNewPodcast(podInfo)(dispatch))
+    })(dispatch)
+}
+
 //Adds a new podcast to the users "subscribed" podcasts
-export const addNewPodcast = rssFeedUrl => dispatch => {
-    getPodcastInfoFromRss(rssFeedUrl,(parsedInfo, imageFileName) => {
+export const addNewPodcast = podcastInfo => dispatch => {
+    console.log("ADDING NEW PODCAST")
+    dispatch({
+        type: C.ADD_PODCAST,
+        payload: podcastInfo
+    })
+    const imageFileName = '/podcastData/podcastArtwork/' + sanitize(podcastInfo.key)
+    downloadFromUrl(podcastInfo.imgLink,imageFileName).then(fp => {
         dispatch({
-            type: C.ADD_PODCAST,
-            payload: parsedInfo
-        })
-        downloadFromUrl(parsedInfo.imgLink,imageFileName).then(fp => {
-            dispatch({
-                type:C.ADD_PODCAST_IMG_FP,
-                payload:{
-                    podTitle:parsedInfo.title,
-                    filePath:fp,
-                }
-            })
+            type:C.ADD_PODCAST_IMG_FP,
+            payload:{
+                podcast:podcastInfo,
+                filePath:fp,
+            }
         })
     })
 }
-    // .then((err,result) => {
-    //     console.log(result)
-    // }).catch(error => {
-    //     console.log(error)
-    //     dispatch({
-    //         type: C.HANDLE_ERROR,
-    //         payload: error,
-    //     })
-    // })
-  
-    // })
-// export const removePodcastFromSubscribed
+
+export const removePodcast = podcastInfo => {
+    return {
+        type: C.REMOVE_PODCAST,
+        payload: podcastInfo
+    }
+}

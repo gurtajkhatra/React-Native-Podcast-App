@@ -21,6 +21,6 @@ export default () => {
   const reducer = persistReducer(persistConfig, appReducer);
   const store = createStore(reducer, enhancer);
   const persistor = persistStore(store);
-  
+  //persistor.purge()
   return { store, persistor };
 };

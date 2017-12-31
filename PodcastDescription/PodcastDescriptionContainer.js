@@ -2,13 +2,14 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux'
 import PodcastDescriptionView from './PodcastDescriptionView'
-import {updatePlayingPodcast,togglePlaying,changePlayerAudioPath} from '../actions'
+import {updatePlayingPodcast,togglePlaying, addNewPodcast,removePodcast} from '../actions'
 
 const mapStateToProps = (state, props) => {
     return ({
         currentPodcast: state.selectedPodcast,
         currentEpisode: state.currentEpisode,
         navigator:props.navigation,
+        isSubscribed:(state.selectedPodcast.key in state.subscribedPodcasts)
     })
 }
 const mapDispatchToProps = dispatch => 
@@ -23,9 +24,14 @@ const mapDispatchToProps = dispatch =>
             togglePlaying(false)
         )
     },
-    toggledSubscriptionToPodcast(podcast) {
+    subscribeToPodcast(podcast) {
         dispatch(
-            toggledSubscriptionToPodcast(podcast)
+            addNewPodcast(podcast)
+        )
+    },
+    unsubscribeToPodcast(podcast) {
+        dispatch(
+            removePodcast(podcast)
         )
     }
 })	

@@ -3,10 +3,10 @@ package com.podcastapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.cmcewen.blurview.BlurViewPackage;
-import guichaguri.trackplayer.TrackPlayer;
 import com.oblador.vectoricons.VectorIconsPackage;
+import guichaguri.trackplayer.TrackPlayer;
 import com.RNFetchBlob.RNFetchBlobPackage;
+import com.cmcewen.blurview.BlurViewPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -27,10 +27,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new BlurViewPackage(),
-            new TrackPlayer(),
             new VectorIconsPackage(),
-            new RNFetchBlobPackage()
+            new TrackPlayer(),
+            new RNFetchBlobPackage(),
+            new BlurViewPackage()
       );
     }
 

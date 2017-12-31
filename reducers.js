@@ -5,7 +5,7 @@ import { AppNavigator } from './AppNavigator';
 
 
 //Initial Navigation State
-const firstAction = AppNavigator.router.getActionForPathAndParams('MainPageView');
+const firstAction = AppNavigator.router.getActionForPathAndParams('PodcastDescriptionView');//PodcastDescriptionView
 const initialNavState = AppNavigator.router.getStateForAction(firstAction);
 
 function nav(state = initialNavState, action) {
@@ -42,12 +42,14 @@ export const subscribedPodcasts = (state={}, action) => {
         case C.ADD_PODCAST_IMG_FP:
             if (state !== undefined) {
               newState = Object.assign({}, state)
-              newState[action.payload.podTitle].imgFilePath = action.payload.filePath
+              newState[action.payload.podcast.key].imgFilePath = action.payload.filePath
               return newState
             }
             return state
         case C.REMOVE_PODCAST :
-          return state
+          newState = Object.assign({}, state)
+          delete newState[action.payload.key]
+          return newState
         case C.GET_PODCAST_INFO:
           return state
         default:

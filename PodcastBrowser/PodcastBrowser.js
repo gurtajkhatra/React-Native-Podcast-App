@@ -15,6 +15,7 @@ export default class PodcastBrowser extends React.Component {
         return "https://itunes.apple.com/search?term=" +  encodeURIComponent(searchQuery) + "&media=podcast&attribute=titleTerm&limit="+results
     }
 
+    //When the text in the search bar changes
     searchTextChanged(newText) {
         iTunesLink = this.createiTunesLink(newText)
         fetch(iTunesLink).then((response) => {
@@ -22,7 +23,7 @@ export default class PodcastBrowser extends React.Component {
         }).then((jsonData) => {
             this.setState((oldState) => {
                 return {
-                results:jsonData['results']
+                    results:jsonData['results']
                 }
             })
         })

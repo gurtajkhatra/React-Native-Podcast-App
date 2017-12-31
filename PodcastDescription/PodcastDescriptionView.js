@@ -1,21 +1,66 @@
 import React from 'react';
-import { StyleSheet,View,Text, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet,View,Text, TouchableOpacity, FlatList, Animated,StatusBar } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import EpisodeCell from './EpisodeCell'
 import PodcastCell from './PodcastCell'
 import PodcastDescriptionButtons from './PodcastDescriptionButtons'
 import styleguide from '../common/styleguide';
+import { Dimensions } from 'react-native'
+import SettingsView from './SettingsView'
+
 
 const EPISODE_CELL_HEIGHT = 75
 const PODCAST_IMAGE_HEIGHT = 150
-const PODCAST_BUTTON_HEIGHT = 75
 
+const WINDOW_WIDTH = Dimensions.get('window').width
+const WINDOW_HEIGHT = Dimensions.get('window').height
+const slideOut = {
+    from: {
+        left:0
+    },
+    to: {
+        left:-WINDOW_WIDTH
+    }
+}
+const slideIn = {
+    from: {
+        left:WINDOW_WIDTH
+    },
+    to: {
+        left:0
+    }
+}
 
 export default class PodcastDescriptionView extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            buttonsSectionHeight:new Animated.Value(85),
+        }
+        StatusBar.setHidden(true)
+    }
+
     _keyExtractor = (item, index) => index
 
     _onButtonPress(button) {
         if (button === 'subscribe') {
-            console.log("Subscribe")
+            if(this.props.isSubscribed) {
+                this.props.unsubscribeToPodcast(this.props.currentPodcast)
+            }
+            else {
+                this.props.subscribeToPodcast(this.props.currentPodcast)
+            }
+        }
+        else if (button === "settings") {
+            Animated.timing(                 
+                this.state.buttonsSectionHeight,         
+                {
+                  toValue: 150,                
+                  duration: 100,           
+                }
+              ).start()
+            this.podcastButtons.animate(slideOut,150)
+            this.settingsView.animate(slideIn,150)
         }
         else {
             console.log("Pressed")
@@ -34,7 +79,7 @@ export default class PodcastDescriptionView extends React.Component {
         if ('imgFilePath' in item) {
             const podcastTitle = item.title
             const podcastDescription = item.summary
-            const podcastFp = item.imgFilePath
+            const podcastFp = (item.imgFilePath === '') ? item.imgLink:item.imgFilePath
             const episodeCount = item.episodesArray.length
             return (
             <View style = {styles.header}>
@@ -47,7 +92,18 @@ export default class PodcastDescriptionView extends React.Component {
                 <View style = {styles.lineBreakContainer}>
                     <View style = {styles.lineBreak}/>
                 </View>
-                <PodcastDescriptionButtons buttonHeight={PODCAST_BUTTON_HEIGHT} onPress={(buttonType) => this._onButtonPress(buttonType)}/>
+
+
+                <View style = {{ flexDirection:"row"}}>
+                    <Animatable.View style={{height:this.state.buttonsSectionHeight}} ref={(input) => this.podcastButtons=input}>
+                        <PodcastDescriptionButtons style={styles.podcastButtons} isSubscribed={this.props.isSubscribed} onPress={(buttonType) => this._onButtonPress(buttonType)}/>
+                    </Animatable.View>
+                    <Animatable.View style={{height:this.state.buttonsSectionHeight,width:'100%',position:'absolute',left:WINDOW_WIDTH}} ref={(input) => this.settingsView=input}>
+                        <SettingsView/>
+                    </Animatable.View>
+                </View>
+                
+
                 <View style = {styles.episodesBreak}>
                     <View style={styles.lineHalfContainer}>
                         <View style={styles.lineHalf}/>
@@ -98,6 +154,9 @@ const styles = {
     },
     scrollView: {
         flex:8,
+    },
+    podcastButtons: {
+        paddingBottom:100,
     },
     lineBreakContainer: {
         flex:1,

@@ -8,7 +8,7 @@ import Footer from './common/footer'
 
 const window = Dimensions.get('window');
 const FOOTER_HEIGHT = window.height/10
-const REST_OF_APP_HEIGHT = (window.height*9)/10
+const REST_OF_APP_HEIGHT = window.height//(window.height*9)/10
 
 // const saveState = () => {
 //   console.log("SAVING STATE...")
@@ -29,9 +29,9 @@ export default class App extends React.Component {
                 <View style={styles.appView}>
                   <AppWithNavigationState/>
                 </View>
-                <View style={styles.footer}>
+                {/* <View style={styles.footer}>
                   <Footer footerHeight={FOOTER_HEIGHT}/>
-                </View>
+                </View> */}
               </View>
             </PersistGate>
         </Provider>

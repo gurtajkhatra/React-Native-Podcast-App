@@ -1,9 +1,12 @@
 import React from 'react';
-import { Image,View, StyleSheet,Text, TouchableOpacity } from 'react-native';
+import { Image,View, StyleSheet,Text, TouchableOpacity,Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import ElevatedView from 'react-native-elevated-view'
-import { BlurView } from 'react-native-blur';
 import StyleGuide from '../common/styleguide'
+import AsyncImage from './AsyncImage'
+
+const WINDOW = Dimensions.get('window');
+const SCREEN_WIDTH = WINDOW.width
 
 export default class PodcastCell extends React.Component {
     constructor(props) {
@@ -22,16 +25,11 @@ export default class PodcastCell extends React.Component {
             <TouchableOpacity onPress = {() => this._onPress()} activeOpacity={0.9}>
                 <View style={[this.props.style]}>
                     <View style={styles.container}>
-                        <View style={[{height:this.props.boxHeight},styles.titleBox]}>
-                            <Image source={{uri:this.props.podcastImgFilePath}} style={styles.podcastImg}>
-                            </Image>
-                            <BlurView
-                                style={styles.podcastImg}
-                                blurType="regular"
-                                blurAmount={5}>
-                            </BlurView>
+                        <View style={{overflow: 'hidden',height:(this.state.showDescription) ? 
+                                    (SCREEN_WIDTH):(this.props.boxHeight)}}>
+                            <AsyncImage source={{uri:this.props.podcastImgFilePath}} style={[styles.podcastImg]}/>
                         </View>
-                        <View style={styles.descriptionBox}>
+                        <View>
                             <Text style = {[styles.text,styles.titleText]}>{this.props.podcastTitle}</Text>
                             {/* <Text style = {[styles.text,styles.episodeCount]}>{this.props.episodeCount} Episodes</Text> */}
                             <Text numberOfLines={(this.state.showDescription ? (99999):(3))} style = {[styles.text,styles.descriptionText]}>{this.props.podcastDescription}</Text>
@@ -55,22 +53,11 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
     },
-    titleBox: {
-        flexDirection:"row",
-        alignContent:"flex-start",
-        flex:4,
-    },
-    descriptionBox: {
-        flex:2,
-        borderRadius:25,
-        borderWidth: 0,
-    },
     podcastImg: {
-        position:'absolute',
-        top: 0, left: 0, bottom: 0, right: 0,
-        width:"100%",
-        flexDirection:'column',
-        justifyContent:"flex-end",
+        width:'100%',
+        aspectRatio:1,
+        resizeMode:'contain'
+        
     },
     text: {
         paddingLeft:15,

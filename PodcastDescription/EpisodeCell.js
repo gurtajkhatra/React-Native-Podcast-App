@@ -12,7 +12,7 @@ export default class EpisodeCell extends React.Component {
           );
         return (
         <TouchableOpacity onPress = {this.props.onPress} activeOpacity={0.2}>
-            <ElevatedView elevation={3} style={[{height:this.props.boxHeight},this.props.style]}>
+            <ElevatedView elevation={4} style={[{height:this.props.boxHeight},this.props.style,styles.elevatedView]}>
                 <View style={styles.container}>
                     <View style={styles.textSide}>
                         <View style={styles.titleBox}>
@@ -40,6 +40,11 @@ EpisodeCell.propTypes = {
   };
   
 const styles = StyleSheet.create({
+    elevatedView: {
+        borderWidth:1,
+        borderColor:'rgba(0,0,0,0)',
+        borderRadius:10,
+    },
     container:{
         flexDirection:"row",
         flex:1,

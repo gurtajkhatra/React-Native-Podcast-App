@@ -1,7 +1,7 @@
 import React from 'react';
 import MainPage from './MainPage';
 import { connect } from 'react-redux'
-import { updateSelectedPodcast,addNewPodcast } from '../actions'
+import { updateSelectedPodcast,addNewPodcastFromRssLink } from '../actions'
 
 
 const mapStateToProps = (state, props) => {
@@ -14,7 +14,7 @@ const mapDispatchToProps = dispatch =>
 ({
   getPodcastData(rssFeedLink) {
     dispatch(
-      addNewPodcast(rssFeedLink)
+      addNewPodcastFromRssLink(rssFeedLink)
     )
   },
   selectPodcast(podcastInfo) {

@@ -7,7 +7,7 @@ export default class PodcastDescriptionButton extends React.Component {
     render() {
         return(
             <TouchableOpacity onPress={()=>this.props.onPress()}>
-                <ElevatedView elevation={3} style={[this.props.styles,styles.iconButton]}>
+                <ElevatedView elevation={4} style={[this.props.style,styles.iconButton]}>
                     <Text style={styles.icon}>{this.props.icon}</Text>
                     <Text style={styles.iconDescription}>{this.props.iconDescription}</Text>
                 </ElevatedView>
@@ -22,7 +22,9 @@ const styles = StyleSheet.create({
         aspectRatio:1,
         justifyContent:"center",
         alignItems:"center",
-        flex:1
+        borderWidth:1,
+        borderColor:"rgba(0,0,0,0)",
+        borderRadius:6
     },
     iconDescription: {
         fontFamily:StyleGuide.bodyFont,
