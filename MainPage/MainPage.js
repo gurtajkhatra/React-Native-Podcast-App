@@ -40,7 +40,7 @@ export default class MainPage extends React.Component {
                 <Row style={styles.podcasts}>
                     <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="New Episodes" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/>
                     <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Podcasts" onPodcastPress={(podcastInfo) => {this.goToPodcastDescription(podcastInfo)}} onTitlePress={()=>navigator.navigate('YourPodcastsView')}/>
-                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Playlists" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/>
+                    {/* <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Playlists" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/> */}
                 </Row>
             </Grid>
         );    

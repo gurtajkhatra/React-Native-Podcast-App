@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ElevatedView from 'react-native-elevated-view'
 import StyleGuide from '../common/styleguide'
 import AsyncImage from './AsyncImage'
+import SubscribeButton from './SubscribeButton'
 
 const WINDOW = Dimensions.get('window');
 const SCREEN_WIDTH = WINDOW.width
@@ -25,12 +26,17 @@ export default class PodcastCell extends React.Component {
             <TouchableOpacity onPress = {() => this._onPress()} activeOpacity={0.9}>
                 <View style={[this.props.style]}>
                     <View style={styles.container}>
+                        {/* Podcast Image */}
                         <View style={{overflow: 'hidden',height:(this.state.showDescription) ? 
                                     (SCREEN_WIDTH):(this.props.boxHeight)}}>
                             <AsyncImage source={{uri:this.props.podcastImgFilePath}} style={[styles.podcastImg]}/>
                         </View>
+                        {/* Podcast Information Text */}
                         <View>
-                            <Text style = {[styles.text,styles.titleText]}>{this.props.podcastTitle}</Text>
+                            <View style={styles.titleView}>
+                                <Text style = {[styles.text,styles.titleText]}>{this.props.podcastTitle}</Text>
+                                <SubscribeButton style={styles.subscribeButton} isSubscribed={this.props.isSubscribed} onSubscribePress={() => this.props.onSubscribePress()}/>
+                            </View>
                             {/* <Text style = {[styles.text,styles.episodeCount]}>{this.props.episodeCount} Episodes</Text> */}
                             <Text numberOfLines={(this.state.showDescription ? (99999):(3))} style = {[styles.text,styles.descriptionText]}>{this.props.podcastDescription}</Text>
                         </View>
@@ -62,7 +68,12 @@ const styles = StyleSheet.create({
     text: {
         paddingLeft:15,
     },
+    titleView: {
+        flexDirection:'row',
+        alignItems:'center',
+    },  
     titleText: {
+        flex:2,
         fontSize:26,
         fontFamily:StyleGuide.titleFont,
         backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -71,6 +82,10 @@ const styles = StyleSheet.create({
         paddingRight:10,
         marginBottom:5,
         paddingTop:5
+    },
+    subscribeButton: {
+        flex:1,
+        alignItems:'center',
     },
     episodeCount: {
         fontSize:16,

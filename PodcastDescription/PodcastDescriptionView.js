@@ -85,6 +85,8 @@ export default class PodcastDescriptionView extends React.Component {
             <View style = {styles.header}>
                 <PodcastCell style = {styles.podCell}
                                     podcastTitle={podcastTitle}
+                                    isSubscribed = {this.props.isSubscribed}
+                                    onSubscribePress={() => this._onButtonPress('subscribe')}
                                     podcastDescription={podcastDescription}
                                     episodeCount={episodeCount}
                                     podcastImgFilePath = {podcastFp}
