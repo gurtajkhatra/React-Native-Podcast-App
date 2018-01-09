@@ -27,8 +27,8 @@ export default class PodcastCell extends React.Component {
                 <View style={[this.props.style]}>
                     <View style={styles.container}>
                         {/* Podcast Image */}
-                        <View style={{overflow: 'hidden',height:(this.state.showDescription) ? 
-                                    (SCREEN_WIDTH):(this.props.boxHeight)}}>
+                        <View style={[styles.podcastImgView,{height:(this.state.showDescription) ? 
+                                    (SCREEN_WIDTH):(this.props.boxHeight)}]}>
                             <AsyncImage source={{uri:this.props.podcastImgFilePath}} style={[styles.podcastImg]}/>
                         </View>
                         {/* Podcast Information Text */}
@@ -59,11 +59,13 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
     },
+    podcastImgView: {
+        overflow: 'hidden',
+    },
     podcastImg: {
         width:'100%',
         aspectRatio:1,
         resizeMode:'contain'
-        
     },
     text: {
         paddingLeft:15,
@@ -71,6 +73,8 @@ const styles = StyleSheet.create({
     titleView: {
         flexDirection:'row',
         alignItems:'center',
+        paddingTop:20,
+        paddingBottom:10,
     },  
     titleText: {
         flex:2,
@@ -80,8 +84,6 @@ const styles = StyleSheet.create({
         color:'black',
         fontWeight:"800",
         paddingRight:10,
-        marginBottom:5,
-        paddingTop:5
     },
     subscribeButton: {
         flex:1,

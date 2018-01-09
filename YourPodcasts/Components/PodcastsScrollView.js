@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, Image } from 'react-native';
-import { podcasts } from '../../reducers';
 import PodcastButton from './PodcastButton'
 
 /*

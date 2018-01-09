@@ -23,10 +23,11 @@ export default class SubscribeButton extends React.Component {
         return (     
             <View style = { this.props.style }>
                 <TouchableOpacity onPress={() => this.subscribePressed()}>
-                    {this.state.isSubscribed ?
-                        (<Text style = {[styles.text,styles.subscribedText]}>Subscribed</Text>)
-                        :
-                        (<Text style = {[styles.text,styles.subscribeText]}>Subscribe</Text>)
+                    {
+                        this.state.isSubscribed ?
+                            (<Text style = {[styles.text,styles.subscribedText]}>Subscribed</Text>)
+                            :
+                            (<Text style = {[styles.text,styles.subscribeText]}>Subscribe</Text>)
                     }
 
                 </TouchableOpacity>

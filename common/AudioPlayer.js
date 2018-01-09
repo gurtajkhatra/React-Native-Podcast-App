@@ -1,7 +1,7 @@
 import React from 'react';
 
 //import TrackPlayer from 'react-native-track-player';
-import { ReactNativeAudioStreaming } from 'react-native-audio-streaming';
+//import { ReactNativeAudioStreaming } from 'react-native-audio-streaming';
 import {Platform, NativeModules} from 'react-native'
 
 module.exports = class AudioPlayer {

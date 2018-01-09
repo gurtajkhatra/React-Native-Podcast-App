@@ -11,10 +11,12 @@ import SettingsView from './SettingsView'
 
 const EPISODE_CELL_HEIGHT = 75
 const PODCAST_IMAGE_HEIGHT = 150
+const SETTINGS_VIEW_HEIGHT = 200
+
 
 const WINDOW_WIDTH = Dimensions.get('window').width
 const WINDOW_HEIGHT = Dimensions.get('window').height
-const slideOut = {
+const slideOutToLeft = {
     from: {
         left:0
     },
@@ -22,7 +24,15 @@ const slideOut = {
         left:-WINDOW_WIDTH
     }
 }
-const slideIn = {
+const slideOutToRight = {
+    from: {
+        left:0
+    },
+    to: {
+        left:WINDOW_WIDTH
+    }
+}
+const slideInFromRight = {
     from: {
         left:WINDOW_WIDTH
     },
@@ -30,6 +40,16 @@ const slideIn = {
         left:0
     }
 }
+const slideInFromLeft = {
+    from: {
+        left:-WINDOW_WIDTH
+    },
+    to: {
+        left:0
+    }
+}
+
+
 
 export default class PodcastDescriptionView extends React.Component {
     constructor(props) {
@@ -55,12 +75,23 @@ export default class PodcastDescriptionView extends React.Component {
             Animated.timing(                 
                 this.state.buttonsSectionHeight,         
                 {
-                  toValue: 150,                
+                  toValue: SETTINGS_VIEW_HEIGHT,                
                   duration: 100,           
                 }
               ).start()
-            this.podcastButtons.animate(slideOut,150)
-            this.settingsView.animate(slideIn,150)
+            this.podcastButtons.animate(slideOutToLeft,150)
+            this.settingsView.animate(slideInFromRight,150)
+        }
+        else if (button === "back") {
+            Animated.timing(                 
+                this.state.buttonsSectionHeight,         
+                {
+                  toValue: 85,                
+                  duration: 100,           
+                }
+              ).start()
+            this.settingsView.animate(slideOutToRight,150)
+            this.podcastButtons.animate(slideInFromLeft,150)
         }
         else {
             console.log("Pressed")
@@ -101,11 +132,10 @@ export default class PodcastDescriptionView extends React.Component {
                         <PodcastDescriptionButtons style={styles.podcastButtons} isSubscribed={this.props.isSubscribed} onPress={(buttonType) => this._onButtonPress(buttonType)}/>
                     </Animatable.View>
                     <Animatable.View style={{height:this.state.buttonsSectionHeight,width:'100%',position:'absolute',left:WINDOW_WIDTH}} ref={(input) => this.settingsView=input}>
-                        <SettingsView/>
+                        <SettingsView style={styles.settingsView} goBack={() => this._onButtonPress('back')}/>
                     </Animatable.View>
                 </View>
                 
-
                 <View style = {styles.episodesBreak}>
                     <View style={styles.lineHalfContainer}>
                         <View style={styles.lineHalf}/>
@@ -195,6 +225,10 @@ const styles = {
         fontFamily: styleguide.bodyFont,
         color:'rgba(0,0,0,0.7)',
 
+    },
+    settingsView: {
+        paddingLeft:20,
+        paddingRight:20,
     },
     podCell: {
         marginBottom:0,

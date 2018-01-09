@@ -1,7 +1,7 @@
 import React from 'react';
 import {View,Text, AppRegistry,StyleSheet, Dimensions} from 'react-native';
 import { Provider } from 'react-redux'
-import storeFactory from './store'
+import storeFactory from './store/store'
 import { PersistGate } from 'redux-persist/es/integration/react'
 import AppWithNavigationState from './AppNavigator';
 import Footer from './common/footer'

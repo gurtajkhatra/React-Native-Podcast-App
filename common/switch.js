@@ -36,7 +36,7 @@ export default class Switch extends React.Component {
         });
         return (
             <TouchableWithoutFeedback onPress={() => this.toggle()}>
-                <View style={styles.touchBox}>
+                <View style={[this.props.style,styles.touchBox]}>
                     <View style={styles.container}>
                         <Animated.View style={[styles.bar,{backgroundColor:color}]}/>
                         <Animated.View ref={(input)=>this.toggleCircle=input} style={[styles.outerCircle,{left:this.left,backgroundColor:color}]}/>
@@ -49,7 +49,7 @@ export default class Switch extends React.Component {
 
 const styles = {
     touchBox : {
-        padding:20,
+        //padding:20,
         alignItems:'center',
         justifyContent:'center'
     },

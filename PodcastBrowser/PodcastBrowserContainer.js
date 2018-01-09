@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PodcastBrowser from './PodcastBrowser'
-import {updateSelectedPodcastFromRssLink} from '../actions'
+import {updateSelectedPodcastFromRssLink} from '../store/actions'
 const mapStateToProps = (state, props) => {
     return ({
     })

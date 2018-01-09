@@ -7,7 +7,7 @@ export default class PodcastDescriptionButton extends React.Component {
     render() {
         return(
             <TouchableOpacity onPress={()=>this.props.onPress()}>
-                <ElevatedView elevation={4} style={[this.props.style,styles.iconButton]}>
+                <ElevatedView elevation={0} style={[this.props.style,styles.iconButton]}>
                     <Text style={styles.icon}>{this.props.icon}</Text>
                     <Text style={styles.iconDescription}>{this.props.iconDescription}</Text>
                 </ElevatedView>

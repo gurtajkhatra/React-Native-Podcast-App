@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
 import YourPodcastsNavBar from './YourPodcastsNavBar'
 import PodcastsScrollView from './PodcastsScrollView'
-import {updateSelectedPodcast} from '../../actions'
+import {updateSelectedPodcast} from '../../store/actions'
 
 export default class YourPodcastsView extends React.Component {
     constructor(props) {

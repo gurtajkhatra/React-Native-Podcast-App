@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux'
 import PlayingEpisodeView from './PlayingEpisodeView'
-import { togglePlaying } from '../actions'
+import { togglePlaying } from '../store/actions'
 
 const mapStateToProps = (state, props) => {
     return ({

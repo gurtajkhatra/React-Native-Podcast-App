@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet,View,Text,TouchableOpacity } from 'react-native';
+import { StyleSheet,View,Text,TouchableOpacity, TextInput, Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import styleguide from '../common/styleguide';
 
@@ -24,27 +24,26 @@ export default class Counter extends React.Component {
     render() {
         const minusIcon = (
             <View>
-                <Icon name="minus-circle-outline" style={styles.searchIconText} size={25}/>
+                <Icon name="minus" style={styles.searchIconText} size={18}/>
             </View>
         )
         const plusIcon = (
             <View style={styles.searchIcon}>
-                <Icon name="plus-circle-outline" style={styles.searchIconText} size={25}/>
+                <Icon name="plus" style={styles.searchIconText} size={18}/>
             </View>
         )
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => this.modifierPressed(true)}>
+                {/* <TouchableOpacity onPress={() => this.modifierPressed(true)}>
                     {minusIcon}
-                </TouchableOpacity>
-                <View style={styles.numberView}>
-                    <Text style={styles.number}>
-                        {this.state.counter}
-                    </Text>
-                </View>
-                <TouchableOpacity onPress={() => this.modifierPressed(false)}>
+                </TouchableOpacity> */}
+                {/* <View style={styles.numberView}> */}
+                <TextInput style={styles.number} keyboardType='numeric' textAlign='center'/>
+                    {/* {this.state.counter} */}
+                {/* </View> */}
+                {/* <TouchableOpacity onPress={() => this.modifierPressed(false)}>
                     {plusIcon}
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         )
     }
@@ -55,14 +54,13 @@ const styles = {
         flexDirection:'row',
         alignItems:'center'
     },
-    numberView: {
-        paddingLeft:8,
-        paddingRight:8
-    },
     number: {
+        height:26,
+        width:48,
         fontFamily:styleguide.bodyFont,
         fontSize:18,
-        color:styleguide.purple
+        color:styleguide.purple,
+        alignItems:'center',
     }
 
 }

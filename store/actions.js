@@ -4,8 +4,7 @@ import RNFetchBlob from 'react-native-fetch-blob'
 import fetch from 'cross-fetch'
 import sanitize from 'sanitize-filename'
 import Platform from 'react-native'
-
-
+import Realm from './Realm'
 
 
 let docDir = RNFetchBlob.fs.dirs.DocumentDir
@@ -79,11 +78,13 @@ const getPodcastInfoFromRss = (rssFeedUrl,callback) => dispatch => {
         parseString(xmlText, function (err, result) {
             const channelInfo = result.rss.channel[0]
             const title = channelInfo.title[0]
+            const author = channelInfo['itunes:author'][0]
             const imgLink =  channelInfo.image[0].url[0]
             const description =  channelInfo['description'][0]
             var podInfo = {
                 key:title,
                 title: title,
+                author: author,
                 summary: description,
                 imgLink: imgLink,
                 imgFilePath:'',
@@ -109,20 +110,31 @@ export const addNewPodcastFromRssLink = link => dispatch => {
 
 //Adds a new podcast to the users "subscribed" podcasts
 export const addNewPodcast = podcastInfo => dispatch => {
-    console.log("ADDING NEW PODCAST")
+    //Add podcast information to our local database
+    Realm.addNewPodcast(podcastInfo)
+    //Add base podcast information to the state
     dispatch({
         type: C.ADD_PODCAST,
-        payload: podcastInfo
+        payload: {
+            rssLink:podcastInfo.rssLink,
+            podcastInfo: {
+                title: podcastInfo.title,
+                imgFilePath:'',
+            }
+        }
     })
+    //Add the image file path to the state
     const imageFileName = '/podcastData/podcastArtwork/' + sanitize(podcastInfo.key)
     downloadFromUrl(podcastInfo.imgLink,imageFileName).then(fp => {
         dispatch({
             type:C.ADD_PODCAST_IMG_FP,
             payload:{
-                podcast:podcastInfo,
+                rssLink:podcastInfo.rssLink,
                 filePath:fp,
             }
         })
+        //Add the image file path to the database
+        Realm.updatePodcastImageFilePath(podcastInfo.rssLink,imageFileName)
     })
 }
 
