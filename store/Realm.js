@@ -1,5 +1,5 @@
 import Realm from 'realm'
-import { subscribedPodcasts } from './reducers';
+import RNFetchBlob from 'react-native-fetch-blob'
 
 //TODO: Change to read this value from state/pass it as an argument
 const NUMBER_EPISODES_TO_SAVE = 5
@@ -22,9 +22,9 @@ Episode.schema = {
 }
 
 
-class SubscribedPodcast extends Realm.Object{}
-SubscribedPodcast.schema = {
-    name: 'SubscribedPodcast',
+class Podcasts extends Realm.Object{}
+Podcasts.schema = {
+    name: 'Podcasts',
     primaryKey: 'rssLink',
     properties: {
         rssLink:{type: 'string'},
@@ -34,7 +34,8 @@ SubscribedPodcast.schema = {
         imgLink:{type: 'string'},
         imgFilePath:{type: 'string', default:''},
         episodesArray:{type:'list',objectType:'Episode',default:[]},
-        isFavorite:{type:'bool',default:false}
+        isFavorite:{type:'bool',default:false},
+        isSubscribed:{type:'bool',default:true}
     }
 }
 
@@ -60,7 +61,7 @@ const deepsearchObject = (obj, matchFunction) => {
 }
 
 module.exports.printPodcasts = () => {
-    let podcasts = realm.objects(SubscribedPodcast.schema.name)
+    let podcasts = realm.objects(Podcasts.schema.name)
     for(var i=0;i<podcasts.length;i++) {
         console.log(podcasts[i].episodesArray.length)
     }
@@ -104,8 +105,23 @@ const addNewEpisode = (episodeInfo) => {
 //Podcast Functions
 //------------
 
+//Gets the podcast info if available, otherwise returns null
+module.exports.getPodcastInfo = (rssLink) => {
+    let podcast = realm.objects(Podcasts.schema.name).filtered('rssLink="' + rssLink+'"')
+    if (podcast.length == 1) {
+        return podcast[0]
+    }
+    return null
+}
+
+//Get an object of the currently subscribed podcasts of rssLink => {}
+module.exports.getSubscribedPodcasts = () => {
+    return realm.objects(Podcasts.schema.name).filtered('isSubscribed=true')
+}
+
+//Adds a new podcast to the DB
 module.exports.addNewPodcast = (podInfo) => {
-    let alreadyExistingPodcasts = realm.objects(SubscribedPodcast.schema.name).filtered('rssLink="' + podInfo['rssLink']+'"')
+    let alreadyExistingPodcasts = realm.objects(Podcasts.schema.name).filtered('rssLink="' + podInfo['rssLink']+'"')
     var newPodcast = null
     if (alreadyExistingPodcasts.length === 0) {
         var savedEpisodes = []
@@ -114,7 +130,7 @@ module.exports.addNewPodcast = (podInfo) => {
             savedEpisodes.push(episode)
         }
         newPodcast = realm.write(() => {
-            realm.create(SubscribedPodcast.schema.name, {
+            realm.create(Podcasts.schema.name, {
                 rssLink:podInfo['rssLink'],
                 title:podInfo['title'],
                 author:podInfo['author'],
@@ -126,15 +142,56 @@ module.exports.addNewPodcast = (podInfo) => {
     }
 }
 
-module.exports.updatePodcastImageFilePath = (rssLink, imgFilePath) => {
-    //Check if the podcast exists in the realm
-    let podcast = realm.objects(SubscribedPodcast.schema.name).filtered('rssLink="' + rssLink+'"')
-    if(podcast.length == 1) {
+//Removes a podcast from the DB
+module.exports.removePodcast = (podInfo) => {
+    realm.write(() => {
+        let rssLink = podInfo.rssLink
+        let podcastToDelete = realm.objects(Podcasts.schema.name).filtered('rssLink="' + rssLink+'"')
+        realm.delete(podcastToDelete)
+    })
+}
+
+//Subscribes to a podcast, and adds it to the DB if it isn't there already
+module.exports.subscribeToPodcast = (podInfo) => {
+    let podToSub = module.exports.getPodcastInfo(podInfo.rssLink)
+    //If the podcast already exists
+    if (podToSub != null) {
         realm.write(() => {
-            podcast[0].imgFilePath = imgFilePath
+            podToSub.isSubscribed = true
         })
+    }
+    else {
+        module.exports.addNewPodcast(podInfo)
     }
 }
 
 
-const realm = new Realm({schema: [Episode,SubscribedPodcast]})
+//Unsubscribes to a podcast
+module.exports.unsubscribeToPodcast = (rssLink) => {
+    realm.write(() => {
+        let podToUnsub = module.exports.getPodcastInfo(rssLink)
+        podToUnsub.isSubscribed = false
+    })
+}
+
+//Delete any unnessesary podcast entires
+module.exports.cleanUpPodcasts = () => {
+    let podcastsToDelete = realm.objects(Podcasts.schema.name).filtered('isSubscribed=false')
+    for (var i = 0; i<podcastsToDelete.length;i++) {
+        //Remove the artwork images from local storage
+        let podcastInfo = podcastsToDelete[i]
+        let fp = podcastInfo.imgFilePath
+        if (fp != '') {
+            RNFetchBlob.fs.unlink(fp).then(() => {
+                module.exports.removePodcast(podcastInfo)
+            })
+        }
+        else {
+            module.exports.removePodcast(podcastInfo)
+        }   
+    }
+}
+
+
+
+const realm = new Realm({schema: [Episode,Podcasts]})

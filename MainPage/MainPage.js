@@ -13,13 +13,15 @@ export default class MainPage extends React.Component {
         this.goToPodcastBrowser = this.goToPodcastBrowser.bind(this)
     }
     goToPodcastDescription(podcastInfo) {
-        this.props.selectPodcast(podcastInfo)
-        this.props.navigation.navigate("PodcastDescriptionView")
+        this.props.selectPodcast(podcastInfo['rssLink'],() => {
+            this.props.navigation.navigate("PodcastDescriptionView")
+        })
     }
     goToPodcastBrowser() {
         this.props.navigation.navigate("PodcastBrowserView")
     }
     componentDidMount() {
+        this.props.cleanUpDatabase()
         // var pods = [
         //     'http://rss.art19.com/the-daily',
         //     'http://rss.earwolf.com/comedy-bang-bang',
@@ -38,8 +40,8 @@ export default class MainPage extends React.Component {
                     <MainPageNavBar addPodcastPressed={()=>this.goToPodcastBrowser()}/>
                 </Row>
                 <Row style={styles.podcasts}>
-                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="New Episodes" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/>
-                    <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Podcasts" onPodcastPress={(podcastInfo) => {this.goToPodcastDescription(podcastInfo)}} onTitlePress={()=>navigator.navigate('YourPodcastsView')}/>
+                    <PodcastsSection podcasts = {this.props.subscribedPodcasts} style={styles.podcastsSection} title="New Episodes" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/>
+                    <PodcastsSection podcasts = {this.props.subscribedPodcasts} style={styles.podcastsSection} title="Your Podcasts" onPodcastPress={(podcastInfo) => {this.goToPodcastDescription(podcastInfo)}} onTitlePress={()=>navigator.navigate('YourPodcastsView')}/>
                     {/* <PodcastsSection pods = {this.props.subbedPods} style={styles.podcastsSection} title="Your Playlists" onPodcastPress = {()=>console.log("Pressed")} onTitlePress = {()=>console.log("tapped")}/> */}
                 </Row>
             </Grid>

@@ -6,17 +6,20 @@ import TitleRow from './TitleRow'
 import PodcastButton from '../../YourPodcasts/Components/PodcastButton'
 
 export default class PodcastsSection extends React.Component {
+    renderButtons(item) {
+        if (item.imgFilePath !== '') {
+            return <PodcastButton style={[styles.podcastArt]} buttonClicked={() => {this.props.onPodcastPress(item)}} podcast={item}/>
+        }
+    }
     render() {
         return(
             <Grid style={styles.container}>
                 <TitleRow title={this.props.title} onTitlePress={this.props.onTitlePress}/>
                 <Row style={styles.podcastsRow}>
                     <FlatList horizontal={true} showsHorizontalScrollIndicator={false}
-                    data={this.props.pods}
+                    data={Object.values(this.props.podcasts)}
                     renderItem={({item}) => {
-                        if (item.imgFilePath !== '') {
-                            return <PodcastButton style={[styles.podcastArt]} buttonClicked={() => {this.props.onPodcastPress(item)}} pod={item}/>
-                        }
+                        return this.renderButtons(item)
                     }
                 }
                     />

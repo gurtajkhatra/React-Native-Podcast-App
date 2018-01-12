@@ -1,12 +1,12 @@
 import React from 'react';
 import MainPage from './MainPage';
 import { connect } from 'react-redux'
-import { updateSelectedPodcast,addNewPodcastFromRssLink } from '../store/actions'
+import { updateSelectedPodcast,addNewPodcastFromRssLink, cleanLocalDatabase } from '../store/actions'
 
 
 const mapStateToProps = (state, props) => {
   return ({
-    subbedPods: (state.subscribedPodcasts)===undefined ? []:Object.values(state.subscribedPodcasts),
+    subscribedPodcasts: (state.subscribedPodcasts)===undefined ? {}:(state.subscribedPodcasts),
     navigator:state.nav,
   })
 }
@@ -17,10 +17,13 @@ const mapDispatchToProps = dispatch =>
       addNewPodcastFromRssLink(rssFeedLink)
     )
   },
-  selectPodcast(podcastInfo) {
+  selectPodcast(rssFeedLink,callback) {
     dispatch(
-      updateSelectedPodcast(podcastInfo)
+      updateSelectedPodcast(rssFeedLink,callback)
     )
+  },
+  cleanUpDatabase() {
+    cleanLocalDatabase()
   }
 })	
 

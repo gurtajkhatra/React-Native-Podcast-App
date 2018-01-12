@@ -17,7 +17,6 @@ const { persistor, store } = storeFactory()
 //store.subscribe(saveState)
 
 
-
 export default class App extends React.Component {
   render() {
       return (

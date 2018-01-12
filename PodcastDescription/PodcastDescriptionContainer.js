@@ -7,10 +7,12 @@ import {updatePlayingPodcast,togglePlaying, addNewPodcast,removePodcast} from '.
 const mapStateToProps = (state, props) => {
     return ({
         currentPodcast: state.selectedPodcast,
+        episodesArray: ((state.selectedPodcast.rssLink in state.subscribedPodcasts) ? state.selectedPodcast.episodesArray:[]),
         currentEpisode: state.currentEpisode,
         navigator:props.navigation,
-        isSubscribed:(state.selectedPodcast.key in state.subscribedPodcasts)
+        isSubscribed:(state.selectedPodcast.rssLink in state.subscribedPodcasts)
     })
+    
 }
 const mapDispatchToProps = dispatch => 
 ({

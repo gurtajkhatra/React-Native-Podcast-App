@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 export default class PodcastButton extends React.Component{
     render(){
         return (
-        <TouchableOpacity onPress={()=>{this.props.buttonClicked(this.props.pod)}} activeOpacity={0.4}>
-            <Image style={this.props.style} source={{uri:this.props.pod.imgFilePath}}/>
+        <TouchableOpacity onPress={()=>{this.props.buttonClicked(this.props.podcast)}} activeOpacity={0.4}>
+            <Image style={this.props.style} source={{uri:this.props.podcast.imgFilePath}}/>
         </TouchableOpacity>
         )
     }
@@ -15,5 +15,5 @@ export default class PodcastButton extends React.Component{
 PodcastButton.propTypes = 
 {
     buttonClicked: PropTypes.func.isRequired,
-    pod:PropTypes.object.isRequired,
+    podcast:PropTypes.object.isRequired,
 }

@@ -149,8 +149,8 @@ export default class PodcastDescriptionView extends React.Component {
             )
         }
         else {
-            const episodeTitle = item['title'][0]
-            const episodeDescription = item['description'][0]
+            const episodeTitle =  item.title
+            const episodeDescription = item.summary
             return <EpisodeCell style={styles.episodeCell}
                                 onPress={() => {this._onEpisodePress(item)}} 
                                 episodeTitle={episodeTitle}
@@ -166,7 +166,7 @@ export default class PodcastDescriptionView extends React.Component {
                 </View>
                 <View style={styles.scrollView}>
                     <FlatList
-                    data={[this.props.currentPodcast].concat(this.props.currentPodcast.episodesArray)}
+                    data={[this.props.currentPodcast].concat(Array.from(this.props.currentPodcast.episodesArray))}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
                     /> 

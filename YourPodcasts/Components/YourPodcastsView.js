@@ -12,8 +12,10 @@ export default class YourPodcastsView extends React.Component {
         this.goToPodcastDescription = this.goToPodcastDescription.bind(this)
     }
     goToPodcastDescription(podcastInfo) {
-        this.props.selectPodcast(podcastInfo)
-        this.props.navigation.navigate("PodcastDescriptionView")
+        this.props.selectPodcast(podcastInfo['rssLink'],() => {
+            this.props.navigation.navigate("PodcastDescriptionView")
+        })
+        
     }
     render() {
         return (

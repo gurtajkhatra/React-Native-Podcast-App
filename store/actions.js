@@ -12,8 +12,7 @@ let docDir = RNFetchBlob.fs.dirs.DocumentDir
 //Downloads from a url and returns the file path where it is saved
 const downloadFromUrl = (url,fileName) => {
     var newFp = {fp:'',isSame:"True"};
-    var prom = RNFetchBlob
-    .config({
+    var prom = RNFetchBlob.config({
       // response data will be saved to this path if it has access right.
       path : docDir + fileName + '.png',
     })
@@ -27,22 +26,31 @@ const downloadFromUrl = (url,fileName) => {
     return prom
 }
 
-//Changes the currently selected podcast from the browser (i.e. unsure if subscribed to or not)
-export const updateSelectedPodcastFromRssLink = (rssLink,callback) => dispatch => {
-    getPodcastInfoFromRss(rssLink,(podcastInfo) => {
-        dispatch (
-            updateSelectedPodcast(podcastInfo)
-        )
-        callback()
-    })
-}
+
 
 //Changes the currently selected podcast from already subscribed to podcasts
-export const updateSelectedPodcast = (podcastInfo) => {
-    return {
-        type:C.CHANGE_SELECTED_PODCAST,
-        payload:podcastInfo
+export const updateSelectedPodcast = (rssLink,callback) => dispatch =>{
+    //Check if the podcast is in our local DB (i.e it is subscribed to)
+    let podcastInfo = Realm.getPodcastInfo(rssLink)
+    //If it is in our local DB
+    if (podcastInfo !== null) {
+        dispatch({
+            type:C.CHANGE_SELECTED_PODCAST,
+            payload:podcastInfo
+        })
+        typeof callback == 'function' && callback()
     }
+    else {
+        getPodcastInfoFromRss(rssLink,(podcastInfo) => {
+            dispatch({
+                type:C.CHANGE_SELECTED_PODCAST,
+                payload:podcastInfo
+            })
+            typeof callback == 'function' && callback()
+        })(dispatch)
+        //dispatch(updateSelectedPodcastFromRssLink(rssLink,callback))
+    }
+
 }
 
 
@@ -108,39 +116,49 @@ export const addNewPodcastFromRssLink = link => dispatch => {
     })(dispatch)
 }
 
+
+//Removes extra podcast information we don't need in the redux store
+//Returns a trimmed down object
+export const formPodcastInfoForStore = podcastInfo => {
+    return {
+        title: podcastInfo.title,
+        imgFilePath:podcastInfo.imgFilePath,
+        rssLink:podcastInfo.rssLink
+    }
+}
+
+
+
 //Adds a new podcast to the users "subscribed" podcasts
 export const addNewPodcast = podcastInfo => dispatch => {
-    //Add podcast information to our local database
-    Realm.addNewPodcast(podcastInfo)
-    //Add base podcast information to the state
-    dispatch({
-        type: C.ADD_PODCAST,
-        payload: {
-            rssLink:podcastInfo.rssLink,
-            podcastInfo: {
-                title: podcastInfo.title,
-                imgFilePath:'',
-            }
-        }
-    })
     //Add the image file path to the state
     const imageFileName = '/podcastData/podcastArtwork/' + sanitize(podcastInfo.key)
     downloadFromUrl(podcastInfo.imgLink,imageFileName).then(fp => {
+        podcastInfo.imgFilePath = fp
+        //Add podcast information to our local database
+        Realm.subscribeToPodcast(podcastInfo)
+        //Add basic podcast information to the state
+        trimmedPodcastInfo = formPodcastInfoForStore(podcastInfo)
         dispatch({
-            type:C.ADD_PODCAST_IMG_FP,
-            payload:{
+            type: C.ADD_PODCAST,
+            payload: {
                 rssLink:podcastInfo.rssLink,
-                filePath:fp,
+                podcastInfo: trimmedPodcastInfo
             }
         })
-        //Add the image file path to the database
-        Realm.updatePodcastImageFilePath(podcastInfo.rssLink,imageFileName)
     })
 }
 
-export const removePodcast = podcastInfo => {
-    return {
+export const removePodcast = podcastInfo => dispatch => {
+    let rssLink = podcastInfo.rssLink
+    Realm.unsubscribeToPodcast(rssLink)
+    dispatch({
         type: C.REMOVE_PODCAST,
-        payload: podcastInfo
-    }
+        payload: rssLink
+    })
+}
+
+
+export const cleanLocalDatabase = () => {
+    Realm.cleanUpPodcasts()
 }

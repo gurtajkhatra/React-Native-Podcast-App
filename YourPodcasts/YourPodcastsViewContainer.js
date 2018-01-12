@@ -13,9 +13,9 @@ const mapStateToProps = (state, props) =>
 
 const mapDispatchToProps = dispatch => 
 ({
-  selectPodcast(podcastInfo) {
+  selectPodcast(rssLink) {
     dispatch(
-      updateSelectedPodcast(podcastInfo)
+      updateSelectedPodcast(rssLink)
     )
   }
 })
