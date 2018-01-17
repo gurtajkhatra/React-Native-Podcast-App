@@ -63,7 +63,7 @@ const deepsearchObject = (obj, matchFunction) => {
 module.exports.printPodcasts = () => {
     let podcasts = realm.objects(Podcasts.schema.name)
     for(var i=0;i<podcasts.length;i++) {
-        console.log(podcasts[i].episodesArray.length)
+        console.log(podcasts[i].imgFilePath)
     }
 }
 
@@ -136,7 +136,8 @@ module.exports.addNewPodcast = (podInfo) => {
                 author:podInfo['author'],
                 summary:podInfo['summary'],
                 imgLink:podInfo['imgLink'],
-                episodesArray:savedEpisodes
+                episodesArray:savedEpisodes,
+                imgFilePath:podInfo['imgFilePath']
             })
         })
     }

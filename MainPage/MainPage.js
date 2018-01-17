@@ -22,15 +22,15 @@ export default class MainPage extends React.Component {
     }
     componentDidMount() {
         this.props.cleanUpDatabase()
-        // var pods = [
-        //     'http://rss.art19.com/the-daily',
-        //     'http://rss.earwolf.com/comedy-bang-bang',
-        //     'http://comedybutton.libsyn.com/rss',
-        //     'https://www.npr.org/rss/podcast.php?id=510289',
-        // ]
-        // for (i=0;i<pods.length;i++){
-        //     this.props.getPodcastData(pods[i])
-        // }
+        var pods = [
+            'http://rss.art19.com/the-daily',
+            'http://rss.earwolf.com/comedy-bang-bang',
+            'http://comedybutton.libsyn.com/rss',
+            'https://www.npr.org/rss/podcast.php?id=510289',
+        ]
+        for (i=0;i<pods.length;i++){
+            this.props.getPodcastData(pods[i])
+        }
     }
     render() {
         const navigator = this.props.navigation

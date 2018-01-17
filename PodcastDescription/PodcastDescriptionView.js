@@ -7,12 +7,12 @@ import PodcastDescriptionButtons from './PodcastDescriptionButtons'
 import styleguide from '../common/styleguide';
 import { Dimensions } from 'react-native'
 import SettingsView from './SettingsView'
-
+import EpisodeTabs from './EpisodeTabs'
 
 const EPISODE_CELL_HEIGHT = 75
 const PODCAST_IMAGE_HEIGHT = 150
 const SETTINGS_VIEW_HEIGHT = 200
-
+const EPISODE_TABS_HEIGHT = 80
 
 const WINDOW_WIDTH = Dimensions.get('window').width
 const WINDOW_HEIGHT = Dimensions.get('window').height
@@ -56,13 +56,16 @@ export default class PodcastDescriptionView extends React.Component {
         super(props)
         this.state = {
             buttonsSectionHeight:new Animated.Value(85),
+            yourFeedSelected:true,
         }
         StatusBar.setHidden(true)
+        this._onEpisodeTabPress = this._onEpisodeTabPress.bind(this)
     }
 
     _keyExtractor = (item, index) => index
 
     _onButtonPress(button) {
+        const animationDuration = 150
         if (button === 'subscribe') {
             if(this.props.isSubscribed) {
                 this.props.unsubscribeToPodcast(this.props.currentPodcast)
@@ -76,27 +79,38 @@ export default class PodcastDescriptionView extends React.Component {
                 this.state.buttonsSectionHeight,         
                 {
                   toValue: SETTINGS_VIEW_HEIGHT,                
-                  duration: 100,           
+                  duration: animationDuration-50,           
                 }
               ).start()
-            this.podcastButtons.animate(slideOutToLeft,150)
-            this.settingsView.animate(slideInFromRight,150)
+            this.podcastButtons.animate(slideOutToLeft,animationDuration)
+            this.settingsView.animate(slideInFromRight,animationDuration)
         }
         else if (button === "back") {
             Animated.timing(                 
                 this.state.buttonsSectionHeight,         
                 {
                   toValue: 85,                
-                  duration: 100,           
+                  duration: animationDuration,           
                 }
               ).start()
-            this.settingsView.animate(slideOutToRight,150)
-            this.podcastButtons.animate(slideInFromLeft,150)
+            this.settingsView.animate(slideOutToRight,animationDuration)
+            this.podcastButtons.animate(slideInFromLeft,animationDuration)
         }
         else {
             console.log("Pressed")
         }
         
+    }
+
+    _onEpisodeTabPress = (feedTabPressed) => {
+        this.setState((prevState) => {
+            if(prevState.yourFeedSelected === feedTabPressed ) {
+                return {}
+            }
+            return {
+                yourFeedSelected:!prevState.yourFeedSelected
+            }
+        })
     }
     
     _onEpisodePress = (episode) => {
@@ -125,8 +139,6 @@ export default class PodcastDescriptionView extends React.Component {
                 <View style = {styles.lineBreakContainer}>
                     <View style = {styles.lineBreak}/>
                 </View>
-
-
                 <View style = {{ flexDirection:"row"}}>
                     <Animatable.View style={{height:this.state.buttonsSectionHeight}} ref={(input) => this.podcastButtons=input}>
                         <PodcastDescriptionButtons style={styles.podcastButtons} isSubscribed={this.props.isSubscribed} onPress={(buttonType) => this._onButtonPress(buttonType)}/>
@@ -135,16 +147,13 @@ export default class PodcastDescriptionView extends React.Component {
                         <SettingsView style={styles.settingsView} goBack={() => this._onButtonPress('back')}/>
                     </Animatable.View>
                 </View>
-                
-                <View style = {styles.episodesBreak}>
-                    <View style={styles.lineHalfContainer}>
-                        <View style={styles.lineHalf}/>
-                    </View>
-                    <Text style={styles.episodesBreakText}> Episodes </Text>
-                    <View style={styles.lineHalfContainer}>
-                        <View style={styles.lineHalf}/>
-                    </View>
+                <View style = {styles.lineBreakContainer}>
+                    <View style = {styles.lineBreak}/>
                 </View>
+                <View style = {styles.episodeTabs}>
+                    <EpisodeTabs yourFeedSelected={this.state.yourFeedSelected} changeTab = {(feedTabPressed) => this._onEpisodeTabPress(feedTabPressed)}/>
+                </View>
+
             </View>
             )
         }
@@ -166,7 +175,7 @@ export default class PodcastDescriptionView extends React.Component {
                 </View>
                 <View style={styles.scrollView}>
                     <FlatList
-                    data={[this.props.currentPodcast].concat(Array.from(this.props.currentPodcast.episodesArray))}
+                    data={[this.props.currentPodcast].concat(Object.values(this.props.currentPodcast.episodesArray))}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
                     /> 
@@ -193,7 +202,8 @@ const styles = {
     lineBreakContainer: {
         flex:1,
         flexDirection:'row',
-        marginBottom:5,
+        marginTop:7,
+        marginBottom:7,
     },
     lineBreak: {
         flex:1,
@@ -203,7 +213,13 @@ const styles = {
         alignSelf:'center',
         marginLeft:15,
         marginRight:15,
-        marginBottom:10,
+    },
+    episodeTabs: {
+        width:'100%',
+        paddingLeft:15,
+        paddingRight:15,
+        paddingBottom:15,
+        paddingTop:5,
     },
     episodesBreak: {
         flexDirection:"row",

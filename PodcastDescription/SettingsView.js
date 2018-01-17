@@ -13,26 +13,33 @@ export default class SettingsView extends React.Component {
     render() {
         return(
         <View style={[this.props.style,styles.container]}>
-            <TouchableOpacity onPress={() => this.props.goBack()}>
-                <View style={styles.backbuttonView}>
-                    {backIcon}
+            <View style={styles.header}>
+                <TouchableOpacity style={styles.backbuttonView} onPress={() => this.props.goBack()}>
+                    <View>
+                        {backIcon}
+                    </View>
+                </TouchableOpacity>
+                <View style={styles.settingsTitleTextView}>
+                    <Text style={[styles.settingTitleText]}>Settings</Text>
                 </View>
-            </TouchableOpacity>
-            <View style={styles.settingsView}>
-                <Text style={[styles.settingTitleText]}>Settings</Text>
-                <View style={[styles.setting]}>
-                    <Text style={[styles.text]}>Notifications</Text>
-                    <Switch/>
-                </View>
-                <View style={styles.lineBreak}/>
-                <View style={[styles.setting]}>
-                    <Text style={[styles.text]}>New Episodes To Keep</Text>
-                    <Counter/>
-                </View>
-                <View style={styles.lineBreak}/>
-                <View style={[styles.setting, {paddingBottom:20}]}>
-                    <Text style={[styles.text]}>Download New Episodes</Text>
-                    <Switch/>
+            </View>
+            <View style={{flex:4,flexDirection:'row'}}>
+                <View style={{flex:1}}/>
+                <View style={styles.settingsView}>
+                    <View style={[styles.setting]}>
+                        <Text style={[styles.text]}>Notifications</Text>
+                        <Switch/>
+                    </View>
+                    <View style={styles.lineBreak}/>
+                    <View style={[styles.setting]}>
+                        <Text style={[styles.text]}>New Episodes To Keep</Text>
+                        <Counter/>
+                    </View>
+                    <View style={styles.lineBreak}/>
+                    <View style={[styles.setting]}>
+                        <Text style={[styles.text]}>Download New Episodes</Text>
+                        <Switch/>
+                    </View>
                 </View>
             </View>
         </View>
@@ -43,21 +50,34 @@ export default class SettingsView extends React.Component {
 const styles = {
     container: {
         flex:1,
-        flexDirection:'row'
+        flexDirection:'column'
+    },
+    header: {
+        flexDirection:'row',
+        flex:1,
+        alignItems:"center",
+        justifyContent:'flex-start',
+    },
+    settingsTitleTextView: {
+        flex:9,
+    },
+    settingTitleText:{
+        fontSize:24,
+        fontFamily:StyleGuide.titleFont,
+        color:"rgba(0,0,0,0.75)",
     },
     backbuttonView: {
         flex:1,
-        paddingRight:15,
     },
     settingsView: {
-        flex:6,
+        flex:9,
         justifyContent:'space-between'
     },
     setting: {
+        height:50,
         flexDirection:'row',
         justifyContent:'space-between',
-        paddingBottom:5,
-        paddingTop:5,
+        alignItems:'center'
     },
     text: {
         fontFamily:StyleGuide.titleFont,
@@ -67,13 +87,9 @@ const styles = {
     backIcon: {
         fontSize:32
     },
-    settingTitleText:{
-        fontSize:20,
-        color:"rgba(0,0,0,0.7)",
-        paddingBottom:20,
-    },
+    
     lineBreak: {
-        width:"95%",
+        width:"100%",
         alignSelf:'center',
         borderColor:'rgba(122,122,122,0.33)',
         borderWidth:0,

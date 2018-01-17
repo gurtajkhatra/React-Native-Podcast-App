@@ -132,7 +132,7 @@ export const formPodcastInfoForStore = podcastInfo => {
 //Adds a new podcast to the users "subscribed" podcasts
 export const addNewPodcast = podcastInfo => dispatch => {
     //Add the image file path to the state
-    const imageFileName = '/podcastData/podcastArtwork/' + sanitize(podcastInfo.key)
+    const imageFileName = '/podcastData/podcastArtwork/' + sanitize(podcastInfo.rssLink)
     downloadFromUrl(podcastInfo.imgLink,imageFileName).then(fp => {
         podcastInfo.imgFilePath = fp
         //Add podcast information to our local database
@@ -160,5 +160,6 @@ export const removePodcast = podcastInfo => dispatch => {
 
 
 export const cleanLocalDatabase = () => {
+    Realm.printPodcasts()
     Realm.cleanUpPodcasts()
 }

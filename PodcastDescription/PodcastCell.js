@@ -5,6 +5,7 @@ import ElevatedView from 'react-native-elevated-view'
 import StyleGuide from '../common/styleguide'
 import AsyncImage from './AsyncImage'
 import SubscribeButton from './SubscribeButton'
+import * as Animatable from 'react-native-animatable';
 
 const WINDOW = Dimensions.get('window');
 const SCREEN_WIDTH = WINDOW.width
@@ -17,20 +18,36 @@ export default class PodcastCell extends React.Component {
 
     _onPress() {
         this.setState(prevState => {
+            {height:(this.state.showDescription) ? 
+                (SCREEN_WIDTH):(this.props.boxHeight)}
             return {showDescription:!(prevState.showDescription)}
         })
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.showDescription != this.state.showDescription) {
+            this.podcastImage.animate({
+                from: {
+                    height:(this.state.showDescription) ? 
+                        (this.props.boxHeight):(SCREEN_WIDTH)
+                },
+                to: {
+                    height:(this.state.showDescription) ? 
+                        (SCREEN_WIDTH):(this.props.boxHeight)
+                }
+            },100)
+        }
+    }
+
     render() {
         return (
-            <TouchableOpacity onPress = {() => this._onPress()} activeOpacity={0.9}>
+            <TouchableOpacity onPress = {() => this._onPress()} activeOpacity={1}>
                 <View style={[this.props.style]}>
                     <View style={styles.container}>
                         {/* Podcast Image */}
-                        <View style={[styles.podcastImgView,{height:(this.state.showDescription) ? 
-                                    (SCREEN_WIDTH):(this.props.boxHeight)}]}>
+                        <Animatable.View style={[styles.podcastImgView, {height:this.props.boxHeight}]} ref={(input) => this.podcastImage=input}>
                             <AsyncImage source={{uri:this.props.podcastImgFilePath}} style={[styles.podcastImg]}/>
-                        </View>
+                        </Animatable.View>
                         {/* Podcast Information Text */}
                         <View>
                             <View style={styles.titleView}>
