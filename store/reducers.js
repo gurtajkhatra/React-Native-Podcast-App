@@ -5,7 +5,7 @@ import { AppNavigator } from '../AppNavigator';
 
 
 //Initial Navigation State
-const firstAction = AppNavigator.router.getActionForPathAndParams('PodcastDescriptionView');//PodcastDescriptionView
+const firstAction = AppNavigator.router.getActionForPathAndParams('MainPageView');//PodcastDescriptionView
 const initialNavState = AppNavigator.router.getStateForAction(firstAction);
 
 function nav(state = initialNavState, action) {
@@ -26,7 +26,7 @@ function nav(state = initialNavState, action) {
     default:
       nextState = AppNavigator.router.getStateForAction(action, state);
       break;
-  } 
+  }
   // Simply return the original `state` if `nextState` is null or undefined.
   return nextState || state;
 }
@@ -34,7 +34,7 @@ function nav(state = initialNavState, action) {
 //Mapping from Podcast RSS Link -> {Title:String, Image File Path:String}
 export const subscribedPodcasts = (state={}, action) => {
       switch(action.type) {
-        case C.ADD_PODCAST : 
+        case C.ADD_PODCAST :
             podInfo = action.payload
             newState = Object.assign({}, state)
             newState[action.payload.rssLink] = action.payload.podcastInfo
@@ -79,7 +79,7 @@ export const isPlaying = (state=false,action) => {
 
 export default combineReducers({
     subscribedPodcasts,
-    selectedPodcast, 
+    selectedPodcast,
     nav,
     currentEpisode,
     isPlaying
