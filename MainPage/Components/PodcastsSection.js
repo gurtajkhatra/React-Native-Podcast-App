@@ -17,10 +17,11 @@ export default class PodcastsSection extends React.Component {
                 <TitleRow title={this.props.title} onTitlePress={this.props.onTitlePress}/>
                 <Row style={styles.podcastsRow}>
                     <FlatList horizontal={true} showsHorizontalScrollIndicator={false}
-                    data={Object.values(this.props.podcasts)}
+					data={Object.values(this.props.podcasts)}
+					keyExtractor={(item, index) =>  item.rssLink}
                     renderItem={({item}) => {
                         return this.renderButtons(item)
-                    }
+					}
                 }
                     />
                 </Row>
